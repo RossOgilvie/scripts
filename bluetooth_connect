@@ -1,0 +1,9 @@
+#!/bin/zsh
+
+systemctl restart bluetooth
+
+bluetoothctl << EOF
+power on
+connect 88:C6:26:0F:3A:97
+quit
+EOF

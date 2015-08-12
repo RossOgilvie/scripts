@@ -1,0 +1,4 @@
+#!/bin/sh
+file=/tmp/keyboard
+chmod a+rw $file
+echo "keyboard_add" >> $file

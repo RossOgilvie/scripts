@@ -1,0 +1,33 @@
+#!/bin/zsh
+
+bght_file=/sys/devices/platform/samsung/leds/samsung::kbd_backlight/brightness
+level=`cat $bght_file`
+
+function show {
+	# brightness is on a scale of 0-8, we have to scale up to 0-100
+	# volnoti-show -s /usr/share/pixmaps/volnoti/keyboard_backlight.png $((`$0 level` * 12.5))
+	# level=$( printf "%.0f" $(($level * 12.5)) )
+	level=$(($level * 13))
+	icon_name="/usr/share/pixmaps/keyboard_backlight.png"
+	# icon_name="/usr/share/notify-osd/icons/hicolor/scalable/status/notification-keyboard-brightness.svg"
+	notify-send " " -i $icon_name -h int:value:$level -h string:synchronous:brightness
+}
+
+case $1 in
+"up")
+	echo $(($level +1)) >> $bght_file
+	show
+	;;
+"down")
+	if (($level > 0))
+	then
+		echo $(($level -1)) >> $bght_file
+	fi
+	show
+	;;
+"show")
+	show
+	;;
+"level" | *)
+	echo $level;;
+esac

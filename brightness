@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+# DISPLAY=":0"
+# HOME=/home/ross
+# XAUTHORITY=$HOME/.Xauthority
+# export DISPLAY XAUTHORITY HOME
+
+show() {
+  # volnoti-show -s /usr/share/pixmaps/volnoti/display-brightness-symbolic.svg `xbacklight`
+  icon_name="/usr/share/notify-osd/icons/hicolor/scalable/status/display-brightness-symbolic.svg"
+  level=$( printf "%.0f" `xbacklight` )
+  notify-send " " -i $icon_name -h int:value:$level -h string:synchronous:brightness
+}
+
+case $1 in
+"help")
+  echo "Usage: up|down|level"
+  ;;
+"up")
+  xbacklight -inc 10
+  show
+  ;;
+"down")
+  xbacklight -dec 10
+  show
+  ;;
+"level")
+  xbacklight
+  ;;
+"show")
+  show
+  ;;
+*)
+  echo "Usage: up|down|level"
+  echo "Brightness: " `$0 level`
+  ;;
+esac
+
+exit 1

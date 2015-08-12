@@ -1,0 +1,5 @@
+#!/bin/sh
+
+#echo "$1" >> /home/ross/test
+umount "/run/media/ross/$1" -l
+rmdir "/run/media/ross/$1"

@@ -1,0 +1,8 @@
+#!/bin/zsh
+
+cabal sandbox init
+cabal sandbox add-source ~/programming/haskell/MathPrelude/basic-prelude
+cabal sandbox add-source ~/programming/haskell/MathPrelude/math-prelude
+wget http://www.stackage.org/snapshot/nightly-2014-12-19/cabal.config
+cabal update
+cabal install -j4 --only-dependencies

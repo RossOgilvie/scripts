@@ -1,0 +1,44 @@
+#!/bin/sh
+
+case $1 in
+"ssh"|"remote")
+	if [[ -n $2 ]]; then
+		shift 1
+		cmd=$*
+	fi
+	;;
+*)
+	if [[ -n $1 ]]; then cmd=$*; fi
+	;;
+esac
+
+case $1 in
+"help")
+	echo "Available options:"
+	echo "=> help					Shows this"
+	echo "=> [ssh] [cmd]			Connects via ssh"
+	echo "=> vnc					Opens a vnc session"
+	;;
+
+# "remote")
+# 	ssh -c arcfour,blowfish-cbc -YC home.rossogilvie.id.au -p 443 $cmd
+# 	;;
+
+"mount")
+	sshfs -o idmap=user -o uid=$(id -u) -o gid=$(id -g) eris:/mnt/seagate2 /mnt/eris
+	;;
+
+"unmount")
+	fusermount -u /mnt/eris
+	;;
+
+"vnc")
+	ssh -N -p 443 -L 5900:localhost:5900 home.rossogilvie.id.au &
+	vncviewer -encodings "copyrect tight zrle hextile zlib corre rre raw" localhost
+	;;
+
+"ssh" | *)
+	# ssh -c arcfour,blowfish-cbc -YC eris -p 443 $cmd
+	ssh -YC home.rossogilvie.id.au -p 443 $cmd
+	;;
+esac

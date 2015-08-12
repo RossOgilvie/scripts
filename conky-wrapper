@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# Send the header so that i3bar knows we want to use JSON:
+echo '{"version":1}'
+
+# Begin the endless array.
+echo '['
+
+# We send an empty first array of blocks to make the loop simpler:
+echo '[],'
+
+# Now send blocks with information forever:
+# we also strip out newlines from the stream, as they cause flickering
+conky -c ~/.config/conky/conkyrc_i3 #| awk 1 ORS=' ' #| sed -e 's_\],_\],\n_g'

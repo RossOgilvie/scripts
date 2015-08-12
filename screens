@@ -1,0 +1,104 @@
+#!/bin/sh
+#
+# This script toggles the extended monitor outputs if something is connected
+#
+
+
+# laptop monitor
+DEFAULT_OUTPUT='eDP1'
+SEC_OUTPUT='HDMI1'
+#string to execute at the end
+EXECUTE="xrandr --output $DEFAULT_OUTPUT --auto "
+
+function side_by_side(){
+	EXECUTE+="--output $SEC_OUTPUT --auto --left-of $DEFAULT_OUTPUT --primary "
+	$EXECUTE
+	bg_dual
+#	/home/ross/.scripts/xmonad_bars dual
+}
+function mirror(){
+	EXECUTE+="--output $SEC_OUTPUT --auto --same-as $DEFAULT_OUTPUT "
+	$EXECUTE
+	bg_single
+#	$KILL_XMOBAR
+#	/home/ross/.scripts/xmonad_bars single
+}
+function off(){
+	EXECUTE+="--primary --output $SEC_OUTPUT --off "
+	$EXECUTE
+	bg_single
+#	$KILL_XMOBAR
+#	/home/ross/.scripts/xmonad_bars single
+}
+function bg_dual(){
+	BGDIR="/home/ross/pictures/Wallpaper/Dual"
+    bg_set
+}
+function bg_single(){
+	BGDIR="/home/ross/pictures/Wallpaper/Single"
+    bg_set
+}
+function bg_set(){
+	CHOICE=$(find $BGDIR -type f \( -name '*.jpg' -o -name '*.png' \) -print0 | shuf -n1 -z)
+    nitrogen --set-scaled $CHOICE
+	# WALLPAPERLN="/home/ross/pictures/Wallpaper/current"
+	# rm $WALLPAPERLN
+    # ln -s $CHOICE $WALLPAPERLN
+    cp $CHOICE /tmp/screen
+}
+
+case $1 in
+"--help"|"-h"|"help")
+	echo "Available options: help; status; on, mirror, off, toggle, auto; wallpaper"
+	exit
+	;;
+"on")
+	side_by_side
+	;;
+"mirror")
+	mirror
+	;;
+"off")
+	off
+	;;
+"toggle")
+	if (xrandr --current | grep "$SEC_OUTPUT\ connected\ (" -q) # is disabled
+		then
+		side_by_side
+		# echo "side-by-side"
+	else
+		off
+		# echo "disabled"
+	fi
+	;;
+"wallpaper")
+	if (xrandr  --current | grep -q "$SEC_OUTPUT\ connected") # is connected
+		then
+		bg_dual
+	else
+		bg_single
+	fi
+	;;
+"status")
+	status=$(xrandr --current)
+	if (echo $status | grep -q "$SEC_OUTPUT\ connected") # is connected
+		then if (echo $status | grep "$SEC_OUTPUT\ connected\ (" -q) # is disabled
+			then
+			echo "disabled"
+			else
+			echo "dual"
+		fi
+	else
+		echo "single"
+	fi
+	;;
+"auto" | *)
+	if (xrandr  --current | grep -q "$SEC_OUTPUT\ connected") # is connected
+		then
+		side_by_side
+		# echo "side-by-side"
+	else # make sure disconnected outputs are off 
+		off
+	fi
+	;;
+esac

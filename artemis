@@ -1,0 +1,69 @@
+#!/bin/sh
+
+# the second option can be used to give additional parameters, or override the defaults
+disp=":0"
+cmd="-t tmux attach -t reg || tmux new -s reg"
+case $1 in
+"vnc" | "vnc-remote")
+	case $2 in
+	"xbmc")
+		disp=":0";;
+	"openbox")
+		disp=":5";;
+	esac
+	;;
+"ssh"|"remote"|"uni")
+	if [[ -n $2 ]]; then
+		shift 1
+		cmd=$*
+	fi
+	;;
+*)
+	if [[ -n $1 ]]; then cmd=$*; fi
+	;;
+esac
+
+
+case $1 in
+"help")
+	echo "Available options:"
+	echo "-- help						Shows this"
+	echo "-- [ ssh | uni | remote ] [cmd]			Via ssh, opens tmux or runs the given command"
+	echo "-- [ (vnc | vnc-remote) [ xbmc | openbox ]]	Opens a vnc session"
+	;;
+	
+"vnc")
+	ssh -f -t -L 5900:localhost:5900 artemis -p 443 "x11vnc -display $disp -localhost"
+	xrun vncviewer -encodings "copyrect tight zrle hextile zlib corre rre raw" $disp --fullscreen
+	;;
+	
+"vnc-remote")
+	ssh -f -t -p 443 -L 5900:localhost:5900 home.rossogilvie.id.au "x11vnc -display $disp -localhost"
+	xrun vncviewer -encodings "copyrect tight zrle hextile zlib corre rre raw" $disp --fullscreen
+	;;
+	
+"remote")
+		ssh -c arcfour,blowfish-cbc -YC home.rossogilvie.id.au -p 443 $cmd
+	;;
+
+"uni")
+		ssh -c arcfour,blowfish-cbc -YC -o "ProxyCommand corkscrew siv 8008 %h %p" home.rossogilvie.id.au -p 443 $cmd
+	;;
+
+"mount")
+	mount /mnt/artemis
+	;;
+	
+"unmount")
+	umount -l /mnt/artemis
+	;;
+
+"refresh_mount")
+	artemis unmount
+	artemis mount
+	;;
+	
+"ssh" | *)
+	ssh -c arcfour,blowfish-cbc -YC artemis -p 443 $cmd
+	;;
+esac

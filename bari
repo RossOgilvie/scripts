@@ -1,0 +1,26 @@
+#!/bin/sh
+
+case $1 in
+"help")
+	echo "Available options: help; ssh; mount; unmount"
+	;;
+	
+"mount")
+	sshfs rosso@bari:/users/pmstaff/carberry/teaching/SM/MATH3968 /home/ross/mounts/usyd/3968
+	#sshfs rosso@bari:/users/pmstaff/carberry/rome/research /home/ross/bari/research
+	sshfs rosso@bari:/users/pmgrad/rosso /home/ross/mounts/usyd/rosso
+	sshfs rosso@bari:/users/misc/httpd/htdocs/u/UG/SM/MATH3968/r/ /home/ross/mounts/usyd/3968wwwdir
+	sshfs rosso@bari:/users/misc/tutsols /home/ross/mounts/usyd/tutsols
+	sshfs rosso@bari:/users/misc/teaching/HM/MATH4303/ /home/ross/mounts/usyd/4303
+	sshfs rosso@bari:/users/misc/httpd/htdocs/u/UG/HM/MATH4303/r/ /home/ross/mounts/usyd/4303wwwdir
+	#sshfs rosso@bari:/ /home/ross/bari/root
+	;;
+	
+"unmount")
+	for f in /home/ross/mounts/usyd/*; do fusermount -u $f; done
+	;;
+	
+"ssh" | *)
+	ssh -c arcfour,blowfish-cbc -YC rosso@bari
+	;;
+esac

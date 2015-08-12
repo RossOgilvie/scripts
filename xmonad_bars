@@ -1,0 +1,37 @@
+#!/bin/sh
+#
+# This script sets up xmobar according to the screen layout specified in $1
+#
+
+XMOBAR_CMD='xmobar -x 1 /home/ross/.xmobarrc2'
+KILL_XMOBAR="pkill -f 'xmobar -x 1 /home/ross/.xmobarrc2'"
+CHECK_XMOBAR=`ps cax | grep 'xmobar -x 1 /home/ross/.xmobarrc2' | grep -o '^[ ]*[0-9]*'`
+
+function swap_pipe
+{
+rm /tmp/xmonad_status_pipe2
+mkfifo /tmp/xmonad_status_pipe2
+}
+
+function swap_null
+{
+rm /tmp/xmonad_status_pipe2
+ln -s /dev/null /tmp/xmonad_status_pipe2
+}
+
+case $1 in
+"dual")
+    if [ -z "$CHECK_XMOBAR" ]; then
+        swap_pipe
+    	$XMOBAR_CMD &
+    fi
+	;;
+"single")
+	eval ${KILL_XMOBAR}
+	swap_null
+	;;
+"--help"|"-h"|"help"|*)
+	echo "Available options: help; dual; single"
+	exit
+	;;
+esac

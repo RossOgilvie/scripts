@@ -1,0 +1,100 @@
+#!/bin/sh
+
+function get_level {
+  amixer sget Master | grep -P -o -m 1 "[0-9]*(?=\\%)"
+}
+
+function muted {
+  if [[ `amixer sget Master` =~ off ]]; then echo "yes"; else echo "no"; fi
+}
+
+function mute_status {
+  if [[ `amixer sget Master` =~ off ]]; then echo "off"; fi
+}
+
+function headphone {
+  if [[ `amixer sget Headphone` =~ off ]]; then echo "off"; else echo "on"; fi
+}
+
+function speaker {
+  if [[ `amixer sget Speaker` =~ off ]]; then echo "off"; else echo "on"; fi
+}
+
+function headphone_switch {
+  if [[ `headphone` =~ off ]]; then
+    amixer -q sset Headphone unmute
+    amixer -q sset Speaker mute
+  else
+    amixer -q sset Headphone mute
+    amixer -q sset Speaker unmute
+  fi
+  show
+}
+
+function show {
+  # echo `get_level` `muted`
+  /home/ross/.scripts/volume_show `get_level` `muted` `headphone`
+}
+
+case $1 in
+"up")
+  amixer -q sset Master 5+
+  show
+  ;;
+"down")
+  amixer -q sset Master 5-
+  show
+  ;;
+"mute")
+  amixer -q sset Master mute
+  show
+  ;;
+"unmute")
+  amixer -q sset Master unmute
+  show
+  ;;
+"toggle")
+  amixer -q sset Master toggle
+  show
+  ;;
+"headphone_on")
+  amixer -q sset Headphone unmute
+  amixer -q sset Speaker mute
+  show
+  ;;
+"headphone_off")
+  amixer -q sset Headphone mute
+  amixer -q sset Speaker unmute
+  show
+  ;;
+"headphone_switch")
+  headphone_switch
+  ;;
+"headphone_acpi")
+  headphone_acpi $2
+  ;;
+"muted")
+  muted
+  ;;
+"mute_status")
+  mute_status
+  ;;
+"headphone")
+  headphone
+  ;;
+"speaker")
+  speaker
+  ;;
+"level")
+  get_level
+  ;;
+"show")
+  show
+  ;;
+"help"|*)
+  echo "Usage: up|down|mute|unmute|toggle|muted|level"
+  echo "Volume: " `$0 level`
+  ;;
+esac
+
+exit 1

@@ -1,0 +1,15 @@
+#!/bin/zsh
+
+cd ~/.xmonad/
+result=$(cabal build 2>&1)
+
+error=$(grep "hs:" <<< $result)
+
+echo $result > xmonad.errors
+
+if [[ -z $error ]]; then
+  # xmonad --restart
+  notify-send -i /usr/share/icons/gnome/48x48/devices/video-display.png "Xmonad Compiled Successfully"
+else
+  notify-send -t 5000 -i /usr/share/icons/gnome/48x48/devices/video-display.png "Xmonad filed to compile. See xmonad.errors"
+fi

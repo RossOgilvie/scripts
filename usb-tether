@@ -1,0 +1,9 @@
+#!/bin/zsh
+
+do_it() {
+sleep 5
+netctl start usb-tether
+}
+do_it&
+
+exit 0
