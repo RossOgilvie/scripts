@@ -1,0 +1,18 @@
+#!/bin/zsh
+
+## change to the right directory
+cd /mnt/seagate2/tv
+
+## rename everything properly
+tvnamer --config=/home/ross/.config/tvnamer/tvnamer.json --batch --recursive .
+
+## clean up crap to another folder for review (I'm too chicken to delete it outright until well tested)
+## The (N) suppresses the error on a failed glob match
+## The ~ says to do glob expansion on that variable
+folders=./*/*/*/(N)
+[[ ! -z $~folders ]] &&  mv $~folders ../crap/
+
+## copy this whole directory onto the backup pool, skipping any files that are already there 
+## (in effect we are making the pool into a superset of this)
+target=/mnt/btrfs-pool3/tv/
+rsync -av ./ $target
