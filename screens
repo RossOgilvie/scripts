@@ -11,7 +11,7 @@ SEC_OUTPUT='HDMI1'
 EXECUTE="xrandr --output $DEFAULT_OUTPUT --auto "
 
 function side_by_side(){
-	EXECUTE+="--output $SEC_OUTPUT --auto --left-of $DEFAULT_OUTPUT --primary "
+	EXECUTE+="--output $SEC_OUTPUT --auto --right-of $DEFAULT_OUTPUT --primary "
 	$EXECUTE
 	bg_dual
 #	/home/ross/.scripts/xmonad_bars dual
