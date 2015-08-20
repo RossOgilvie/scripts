@@ -1,11 +1,9 @@
 #!/bin/zsh
 
 cd ~/.xmonad/
-result=$(cabal build 2>&1)
+result=$(stack build 2>&1)
 
 error=$(grep "hs:" <<< $result)
-
-echo $result > xmonad.errors
 
 if [[ -z $error ]]; then
   # xmonad --restart
