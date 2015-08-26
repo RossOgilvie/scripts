@@ -9,7 +9,7 @@ tvnamer --config=/home/ross/.config/tvnamer/tvnamer.json --batch --recursive .
 ## clean up crap to another folder for review (I'm too chicken to delete it outright until well tested)
 ## The (N) suppresses the error on a failed glob match
 ## The ~ says to do glob expansion on that variable
-folders=./*/*/*/(N)
+folders=./*/*/(N)
 [[ ! -z $~folders ]] &&  mv $~folders ../crap/
 
 ## copy this whole directory onto the backup pool, skipping any files that are already there 
