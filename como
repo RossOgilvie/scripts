@@ -6,24 +6,27 @@ case $1 in
 	;;
 	
 "mount")
-	sshfs rosso@como:/users/pmstaff/carberry/teaching/SM/MATH3968 /home/ross/mnt/usyd/3968
-	sshfs rosso@como:/users/pmstaff/carberry/rome/research /home/ross/mnt/usyd/research
-	sshfs rosso@como:/users/pmgrad/rosso /home/ross/mnt/usyd/rosso
-	sshfs rosso@como:/users/misc/httpd/htdocs/u/UG/SM/MATH3968/r/ /home/ross/mnt/usyd/3968wwwdir
-	sshfs rosso@como:/users/misc/teaching/JM/MATH1011/ /home/ross/mnt/usyd/1011
-    sshfs rosso@como:/users/misc/httpd/htdocs/u/UG/JM/MATH1011/ /home/ross/mnt/usyd/1011webdir
-	sshfs rosso@como:/users/misc/tutsols /home/ross/mnt/usyd/tutsols
-	sshfs rosso@como:/users/misc/teaching/HM/MATH4303/ /home/ross/mnt/usyd/4303
-	#sshfs rosso@como:/users/misc/httpd/htdocs/u/UG/HM/MATH4303/r/ /home/ross/mnt/usyd/4303wwwdir
-	#sshfs rosso@como:/ /home/ross/como/root
+    mkdir -p /media/como/{rosso,research,tutsols}
+
+	sshfs rosso@como:/users/pmgrad/rosso /media/como/rosso
+
+	sshfs rosso@como:/users/pmstaff/carberry/rome/research /media/como/research
+
+	sshfs rosso@como:/users/misc/tutsols /media/como/tutsols
+	
+	#sshfs rosso@como:/users/misc/teaching/JM/MATH1001/ /media/como/1001
+	#sshfs rosso@como:/users/pmstaff/carberry/teaching/SM/MATH3968 /media/como/3968
+	#sshfs rosso@como:/users/misc/httpd/htdocs/u/UG/SM/MATH3968/r/ /media/como/3968wwwdir
+	#sshfs rosso@como:/users/misc/teaching/HM/MATH4303/ /media/como/4303
+	#sshfs rosso@como:/users/misc/httpd/htdocs/u/UG/HM/MATH4303/r/ /media/como/4303wwwdir
 	;;
 	
 "unmount")
-	for f in /home/ross/mnt/usyd/*; do fusermount -u -z $f; done
+	for f in /media/como/*; do fusermount -u -z $f; done
 	;;
 	
 "permissions")
-	ssh -c arcfour,blowfish-cbc -YC rosso@como << 'ENDSSH'
+	ssh -YC rosso@como << 'ENDSSH'
 	#commands to run on remote host
 	cd /users/pmgrad/rosso/MATH3968
 	fix-my-teaching
@@ -32,6 +35,6 @@ case $1 in
 ENDSSH
 	;;
 "ssh" | *)
-	ssh -c arcfour,blowfish-cbc -YC rosso@como
+	ssh -YC rosso@como
 	;;
 esac

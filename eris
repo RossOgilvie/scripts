@@ -25,11 +25,18 @@ case $1 in
 # 	;;
 
 "mount")
-	sshfs -o idmap=user -o uid=$(id -u) -o gid=$(id -g) eris:/mnt/seagate2 /mnt/eris
+    mkdir -p /media/eris/seagate2
+	sshfs -o idmap=user -o uid=$(id -u) -o gid=$(id -g) eris:/media/seagate2 /media/eris/seagate2
+
+    mkdir -p /media/eris/btrfs
+	sshfs -o idmap=user -o uid=$(id -u) -o gid=$(id -g) eris:/media/btrfs3-new /media/eris/btrfs
+
+    mkdir -p /media/eris/backups
+	sshfs -o idmap=user -o uid=$(id -u) -o gid=$(id -g) eris:/media/btrfs3-new/backups /media/eris/backups
 	;;
 
 "unmount")
-	fusermount -u /mnt/eris
+    for f in /media/eris/*; do fusermount -u $f; done
 	;;
 
 "vnc")
@@ -39,6 +46,7 @@ case $1 in
 
 "ssh" | *)
 	# ssh -c arcfour,blowfish-cbc -YC eris -p 443 $cmd
-	ssh -YC home.rossogilvie.id.au -p 443 $cmd
+	# ssh -YC home.rossogilvie.id.au -p 443 $cmd
+	ssh eris $cmd && /home/ross/.scripts/fix-mouse
 	;;
 esac

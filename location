@@ -9,11 +9,11 @@ state=$2
 
 case $location in
 "uni")
-  (sleep 10; sudo -u ross $scripts/como unmount; sudo -u ross $scripts/como mount) &
+##  (sleep 10; sudo -u ross $scripts/como unmount; sudo -u ross $scripts/como mount) &
   	echo "uni" > $location_log
   ;;
 "home")
-  (sleep 10; sudo -u ross $scripts/eris unmount; sudo -u ross $scripts/eris mount; sudo -u ross $scripts/backup) &
+#  (sleep 10; sudo -u ross $scripts/eris unmount; sudo -u ross $scripts/eris mount; sudo -u ross $scripts/backup) &
   echo "home" > $location_log
   ;;
 "default" | "phone")

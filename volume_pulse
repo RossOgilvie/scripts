@@ -10,15 +10,15 @@ function muted {
 }
 
 function mute_status {
-  if [[ `pactl list sinks | grep -A15 "alsa_output.pci-0000_00_1b.0.analog-stereo"` =~ "Mute: yes" ]]; then echo "off"; fi
+  if [[ `pactl list sinks | grep -A15 "alsa_output.pci-0000_00_1b.0.analog-stereo"` =~ "Mute: yes" ]]; then echo "yes"; fi
 }
 
 function headphone {
-  if [[ `pactl list sinks` =~ "Active Port: analog-output-headphones" ]]; then echo "on"; else echo "off"; fi
+  if [[ `pactl list sinks` =~ "Active Port: analog-output-headphones" ]]; then echo "yes"; else echo "no"; fi
 }
 
 function speaker {
-if [[ `pactl list sinks` =~ "Active Port: analog-output-speaker" ]]; then echo "on"; else echo "off"; fi
+if [[ `pactl list sinks` =~ "Active Port: analog-output-speaker" ]]; then echo "yes"; else echo "no"; fi
 }
 
 # function headphone_switch {
@@ -32,7 +32,7 @@ if [[ `pactl list sinks` =~ "Active Port: analog-output-speaker" ]]; then echo "
 
 function show {
   # echo `get_level` `muted`
-  /home/ross/.scripts/volume_show `get_level` `muted`
+  /home/ross/.local/bin/volume-show `get_level` `muted` `headphone`
 }
 
 case $1 in

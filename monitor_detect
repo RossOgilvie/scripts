@@ -1,8 +1,9 @@
 #!/bin/zsh
 #set -x
 export DISPLAY=:0
+export XAUTHORITY=/home/ross/.Xauthority
 
-# sleep 2
+sleep 1
 USER="ross"
 sc="/home/ross/.scripts/screens"
 hdmi_status="$(</sys/class/drm/card0-HDMI-A-1/status)"

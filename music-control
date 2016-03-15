@@ -2,15 +2,18 @@
 
 case $1 in
    "play")
-       key="space"
+    #    key="space"
+        cmd="PlayPause"
        icon_name="/usr/share/icons/gnome/48x48/actions/media-playback-start.png"
        ;;
    "next")
-       key="Right"
+    #    key="Right"
+       cmd="Next"
        icon_name="/usr/share/icons/gnome/48x48/actions/media-skip-forward.png"
        ;;
    "prev")
-       key="Left"
+    #    key="Left"
+       cmd="Previous"
        icon_name="/usr/share/icons/gnome/48x48/actions/media-skip-forward-rtl.png"
        ;;
    *)
@@ -19,8 +22,10 @@ case $1 in
         ;;
 esac
 
-xdotool key --window $(xdotool search --name "Rdio"|head -n1) $key
+# xdotool key --window $(xdotool search --name "Spotify"|head -n1) $key
 
-notify-send -i $icon_name -t 1000 "Rdio: $1"
+dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.$cmd
+
+notify-send -i $icon_name -t 1000 "Spotify: $1"
 
 exit 0

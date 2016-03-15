@@ -1,0 +1,11 @@
+#!/bin/zsh
+
+sync="$1"
+pdf="$2"
+
+(zathura --synctex-forward "$sync" "$pdf" 2> /dev/null) || \
+    (
+    zathura -x 'atom %{input}:%{line}' "$pdf" &
+    sleep 1
+    zathura --synctex-forward "$sync" "$pdf"
+    )
