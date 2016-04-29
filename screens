@@ -4,6 +4,9 @@
 #
 
 
+completion='compctl -k "(help on mirror off toggle wallpaper status auto bash-completion)" screens'
+
+
 # laptop monitor
 DEFAULT_OUTPUT='eDP1'
 SEC_OUTPUT='HDMI1'
@@ -52,6 +55,11 @@ case $1 in
 	echo "Available options: help; status; on, mirror, off, toggle, auto; wallpaper"
 	exit
 	;;
+
+"bash-completion")
+	echo "$completion"
+	;;
+
 "on")
 	side_by_side
 	;;
@@ -97,7 +105,7 @@ case $1 in
 		then
 		side_by_side
 		# echo "side-by-side"
-	else # make sure disconnected outputs are off 
+	else # make sure disconnected outputs are off
 		off
 	fi
 	;;
