@@ -1,11 +1,11 @@
 #!/bin/zsh
 # set -x
 
-folders=('/etc' '/home/ross/Dropbox' '/home/ross/programming' '/home/ross/.dotphiles' '/home/ross/.scripts')
+folders=('/etc' '/home/ross/Dropbox' '/home/ross/programming' '/home/ross/.dotphiles' '/home/ross/.scripts' '/home/ross/pictures')
 
 #rsync_opts="-avz --delete -e ssh"
 rsync_opts="-avz -e ssh"
-remote_base="ross@eris:/mnt/seagate3/backups/nyx"
+remote_base="ross@eris:/mnt/btrfs-pool3/backups/nyx"
 
 ## LOCKFILE STUFF
 lock() {

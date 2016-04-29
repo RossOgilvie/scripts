@@ -1,0 +1,14 @@
+#!/bin/sh
+
+power=$(cat '/sys/class/power_supply/BAT1/capacity')
+
+icon_name="/usr/share/icons/elementary/status/48/battery-good.svg"
+
+if (( $power < 10 )); then
+    icon_name="/usr/share/icons/elementary/status/48/battery-caution.svg"
+fi
+if (( $power < 5 )); then
+    icon_name="/usr/share/icons/elementary/status/48/battery-empty.svg"
+fi
+
+notify-send " " -i $icon_name -h int:value:$power -h string:synchronous:volume

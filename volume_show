@@ -23,7 +23,8 @@ if [[ "$headphones" = "on" ]]; then
     icon_name="/usr/share/icons/gnome/scalable/devices/audio-headphones-symbolic.svg"
 fi
 
-if [ "$muted" = "yes" ]; then
+echo $muted
+if [[ "$muted" = "yes" ]]; then
     icon_name="notification-audio-volume-muted"
 fi
 

@@ -1,5 +1,7 @@
 #!/bin/sh
 
+completion='compctl -k "(up down mute unmute toggle muted mute_status headphone speaker level show help)" volume'
+
 function get_level {
   pulseaudio-ctl | grep -P "(?=Volume level).*" | grep -P -o "[0-9]*(?= %)"
   # pactl list sinks | grep -A15 "alsa_output.pci-0000_00_1b.0.analog-stereo" | grep -P -o -m 1 "[0-9]*(?=\\%)" | grep -m 1 ".*"
@@ -10,15 +12,15 @@ function muted {
 }
 
 function mute_status {
-  if [[ `pactl list sinks | grep -A15 "alsa_output.pci-0000_00_1b.0.analog-stereo"` =~ "Mute: yes" ]]; then echo "off"; fi
+  if [[ `pactl list sinks | grep -A15 "alsa_output.pci-0000_00_1b.0.analog-stereo"` =~ "Mute: yes" ]]; then echo "yes"; fi
 }
 
 function headphone {
-  if [[ `pactl list sinks` =~ "Active Port: analog-output-headphones" ]]; then echo "on"; else echo "off"; fi
+  if [[ `pactl list sinks` =~ "Active Port: analog-output-headphones" ]]; then echo "yes"; else echo "no"; fi
 }
 
 function speaker {
-if [[ `pactl list sinks` =~ "Active Port: analog-output-speaker" ]]; then echo "on"; else echo "off"; fi
+if [[ `pactl list sinks` =~ "Active Port: analog-output-speaker" ]]; then echo "yes"; else echo "no"; fi
 }
 
 # function headphone_switch {
@@ -32,7 +34,7 @@ if [[ `pactl list sinks` =~ "Active Port: analog-output-speaker" ]]; then echo "
 
 function show {
   # echo `get_level` `muted`
-  /home/ross/.scripts/volume_show `get_level` `muted`
+  /home/ross/.local/bin/volume-show `get_level` `muted` `headphone`
 }
 
 case $1 in
@@ -90,6 +92,11 @@ case $1 in
 "show")
   show
   ;;
+
+"bash-completion")
+	echo "$completion"
+	;;
+
 "help"|*)
   echo "Usage: up|down|mute|unmute|toggle|muted|level"
   echo "Volume: " `$0 level`

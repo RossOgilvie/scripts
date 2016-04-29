@@ -1,5 +1,7 @@
 #!/bin/zsh
 
+completion='compctl -k "(up down show level)" keyboard_backlight'
+
 bght_file=/sys/devices/platform/samsung/leds/samsung::kbd_backlight/brightness
 level=`cat $bght_file`
 
@@ -14,6 +16,10 @@ function show {
 }
 
 case $1 in
+"bash-completion")
+	echo "$completion"
+	;;
+
 "up")
 	echo $(($level +1)) >> $bght_file
 	show
