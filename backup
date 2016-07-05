@@ -1,24 +1,54 @@
 #!/bin/zsh
 # set -x
 
-folders=('/etc' '/home/ross/Dropbox' '/home/ross/programming' '/home/ross/.dotphiles' '/home/ross/.scripts' '/home/ross/pictures')
+# exec &>> /tmp/test
 
-#rsync_opts="-avz --delete -e ssh"
-rsync_opts="-avz -e ssh"
-remote_base="ross@eris:/mnt/btrfs-pool3/backups/nyx"
+eris=/home/ross/.scripts/eris
+backup_log=/home/ross/.backup_log
+folders=('/etc' '/home/ross/Dropbox' '/home/ross/.dotphiles' '/home/ross/.scripts' '/home/ross/pictures' $backup_log)
 
-## LOCKFILE STUFF
-lock() {
-    lock_file=/tmp/backup.lock
-    integer myfd
-    exec {myfd}<>$lock_file
-    flock -n $myfd \
-        && return 0 \
-        || return 1
+rsync_opts="-az --delete -e ssh"
+#rsync_opts="-avz -e ssh"
+remote_base="/media/eris/backup"
+
+lock_file=/tmp/backup.lock
+
+## Always cleanup after
+function cleanup () {
+trap - INT TERM EXIT
+
+echo $?
+
+$eris unmount-backup
+[[ -f $lock_file ]] && rm $lock_file
+
+exit $?
 }
 
-lock || exit 1
+## Check for a lock file
+function lock {
+[[ -f $lock_file ]] && exit 1
+touch $lock_file
+}
 
+
+main() {
+lock
+
+trap cleanup INT TERM EXIT
+
+$eris mount-backup || exit 1
+
+## create a file to record the time to of the backup
+touch $backup_log/$(date +%y%m%d-%H%M)
 for f in $folders; do
+    echo "====================="
+    echo $f
+    echo "====================="
     rsync ${=rsync_opts} $f/ $remote_base$f/
 done
+
+cleanup
+}
+
+main
