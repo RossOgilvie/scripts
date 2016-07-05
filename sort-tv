@@ -16,5 +16,5 @@ echo $~folders
 
 ## copy this whole directory onto the backup pool, skipping any files that are already there 
 ## (in effect we are making the pool into a superset of this)
-target=/media/btrfs3-new/tv/
+target=/media/btrfs3-new/stuff/tv/
 rsync -av ./ $target
