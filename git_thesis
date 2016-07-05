@@ -1,0 +1,11 @@
+#!/bin/sh
+
+sudo -u ross /bin/sh - << EOF
+
+cd /home/ross/documents/Uni/Thesis
+git add *.tex
+git add *.bib
+git commit -m "Daily auto-save: $(date)"
+git push origin master
+
+EOF
