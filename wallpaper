@@ -1,0 +1,75 @@
+#!/bin/zsh
+
+COMPLETION='compctl -k "(help bash-completion current refresh random reddit)" wallpaper'
+
+WALLPAPERS="/home/ross/pictures/Wallpaper/"
+CURRENT_LN=$WALLPAPERS"current"
+DIR=$WALLPAPERS"Single/"
+REDDIT=$WALLPAPERS"reddit"
+
+function count_screens() {
+	STATUS=$(/home/ross/.scripts/screens status)
+	if [ $STATUS = 'dual' ];
+	then
+	DIR="/home/ross/pictures/Wallpaper/Dual"
+	else
+	DIR="/home/ross/pictures/Wallpaper/Single"
+fi
+}
+
+function bg_set_random() {
+	count_screens
+
+	CHOICE=$(find $DIR -type f \( -name '*.jpg' -o -name '*.png' \) -print0 | shuf -n1 -z)
+
+	set_wallpaper $CHOICE
+}
+
+function bg_fetch_reddit() {
+	ID="$(wget -q "http://imgur.com/r/wallpapers" -O - | grep '"post"' | grep class | cut -d\" -f 2 | head -1)"
+	echo "Downloading $ID.jpg"
+	wget -c -q -N "http://i.imgur.com/$ID.jpg" -O $REDDIT
+
+	set_wallpaper $REDDIT
+}
+
+function set_wallpaper() {
+	nitrogen --set-scaled $1
+	rm $CURRENT_LN
+	ln -s $1 $CURRENT_LN
+
+	/home/ross/.scripts/prep_lock_screen &
+}
+
+case $1 in
+"--help"|"-h"|"help")
+	echo "Available options: help, bash-completion, current, refresh, random, reddit."
+	echo "Current return the true path of the current wallpaper. This is what returns if no arguments are passed."
+	echo "Refresh puts the most recent wallpaper as the wallpaper."
+	exit
+	;;
+
+"bash-completion")
+	echo "$COMPLETION"
+	;;
+
+"" | "current")
+	realpath $CURRENT_LN
+	;;
+
+"refresh")
+	set_wallpaper $CURRENT_LN
+	;;
+
+"random")
+	bg_set_random
+	;;
+
+"reddit")
+	bg_fetch_reddit
+	;;
+
+*)
+	set_wallpaper $*
+	;;
+esac

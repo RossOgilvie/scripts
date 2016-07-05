@@ -1,0 +1,15 @@
+#!/bin/sh
+## make an image ready for the lockscreen
+
+wallpaperln=/home/ross/pictures/Wallpaper/current
+filepath=`realpath $wallpaperln`
+filename=`basename $filepath`
+fileext=${filename##*.}
+
+wallpath=/tmp/wallpaper.$fileext
+imagepath=/tmp/lock_screen.png
+
+#echo $imagepath > /tmp/lock_screen_path
+
+\cp $filepath $wallpath
+convert $wallpath /home/ross/pictures/Wallpaper/lock_grey.png -gravity center -composite -matte -format png $imagepath

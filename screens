@@ -4,7 +4,7 @@
 #
 
 
-completion='compctl -k "(help on mirror off toggle wallpaper status auto bash-completion)" screens'
+completion='compctl -k "(help bash-completion mirror off toggle status auto)" screens'
 
 
 # laptop monitor
@@ -13,46 +13,27 @@ SEC_OUTPUT='HDMI1'
 #string to execute at the end
 EXECUTE="xrandr --output $DEFAULT_OUTPUT --auto "
 
+WALLPAPER='/home/ross/.scripts/wallpaper refresh'
+
 function side_by_side(){
 	EXECUTE+="--output $SEC_OUTPUT --auto --right-of $DEFAULT_OUTPUT --primary "
 	$EXECUTE
-	bg_dual
-#	/home/ross/.scripts/xmonad_bars dual
+	$WALLPAPER
 }
 function mirror(){
 	EXECUTE+="--output $SEC_OUTPUT --auto --same-as $DEFAULT_OUTPUT "
 	$EXECUTE
-	bg_single
-#	$KILL_XMOBAR
-#	/home/ross/.scripts/xmonad_bars single
+	$WALLPAPER
 }
 function off(){
 	EXECUTE+="--primary --output $SEC_OUTPUT --off "
 	$EXECUTE
-	bg_single
-#	$KILL_XMOBAR
-#	/home/ross/.scripts/xmonad_bars single
-}
-function bg_dual(){
-	BGDIR="/home/ross/pictures/Wallpaper/Dual"
-    bg_set
-}
-function bg_single(){
-	BGDIR="/home/ross/pictures/Wallpaper/Single"
-    bg_set
-}
-function bg_set(){
-	CHOICE=$(find $BGDIR -type f \( -name '*.jpg' -o -name '*.png' \) -print0 | shuf -n1 -z)
-    nitrogen --set-scaled $CHOICE
-	WALLPAPERLN="/home/ross/pictures/Wallpaper/current"
-	rm $WALLPAPERLN
-    ln -s $CHOICE $WALLPAPERLN
-    /home/ross/.scripts/prep_lock_screen
+	$WALLPAPER
 }
 
 case $1 in
 "--help"|"-h"|"help")
-	echo "Available options: help; status; on, mirror, off, toggle, auto; wallpaper"
+	echo "Available options: help; status; on, mirror, off, toggle, auto"
 	exit
 	;;
 
@@ -79,14 +60,6 @@ case $1 in
 		# echo "disabled"
 	fi
 	;;
-"wallpaper")
-	if (xrandr  --current | grep -q "$SEC_OUTPUT\ connected") # is connected
-		then
-		bg_dual
-	else
-		bg_single
-	fi
-	;;
 "status")
 	status=$(xrandr --current)
 	if (echo $status | grep -q "$SEC_OUTPUT\ connected") # is connected
@@ -104,7 +77,6 @@ case $1 in
 	if (xrandr  --current | grep -q "$SEC_OUTPUT\ connected") # is connected
 		then
 		side_by_side
-		# echo "side-by-side"
 	else # make sure disconnected outputs are off
 		off
 	fi
