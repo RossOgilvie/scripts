@@ -1,4 +1,4 @@
 #!/bin/zsh
 ADDR=`ip addr show enp1s0 | grep -o "[0-9]*\.[0-9]*\.[0-9]*\.[0-9]*" | head -1`
 
-echo castnow --myip $ADDR $@
+castnow --myip $ADDR $@
