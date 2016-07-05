@@ -1,5 +1,8 @@
 #!/bin/sh
 
-export WINEDEBUG=warn+dll
-export WINEPREFIX="/home/ross/.wine"
-/usr/bin/wine ~/.wine/drive_c/Program\ Files\ \(x86\)/Steam/Steam.exe -no-dwrite -console -width 1600 -height 900
+#export WINEDEBUG=warn+dll
+#export WINEPREFIX="/home/ross/.wine"
+#/usr/bin/wine ~/.wine/drive_c/Program\ Files\ \(x86\)/Steam/Steam.exe -no-dwrite -console -width 1600 -height 900
+
+LD_PRELOAD='/usr/$LIB/libstdc++.so.6 /usr/$LIB/libgcc_s.so.1 /usr/$LIB/libxcb.so.1 /usr/$LIB/libgpg-error.so' steam
+/usr/bin/steam $*
