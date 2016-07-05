@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/zsh
 
-completion='compctl -k "(help bash-completion ssh mount mount-backup unmount vnc)" eris'
+completion='compctl -k "(help bash-completion ssh mount unmount mount-backup unmount-backup vnc)" eris'
 
 
 case $1 in
@@ -10,8 +10,9 @@ case $1 in
 	echo "=> [ssh] [cmd]			Connects via ssh"
 	echo "=> vnc				Opens a vnc session"
 	echo "=> mount			Mount the shared folders"
-	echo "=> mount-backup			Mount the backup folder"
 	echo "=> unmount			Unmount the shared folders"
+	echo "=> mount-backup			Mount the backup folder"
+	echo "=> unmount-backup			Unmount the backup folder"
 	;;
 
 "bash-completion")
@@ -22,20 +23,24 @@ case $1 in
     mkdir -p /media/eris/seagate2
 	sshfs -o idmap=user -o uid=$(id -u) -o gid=$(id -g) eris:/media/seagate2 /media/eris/seagate2
 
-    mkdir -p /media/eris/btrfs
-	sshfs -o idmap=user -o uid=$(id -u) -o gid=$(id -g) eris:/media/btrfs3-new /media/eris/btrfs
-
-    mkdir -p /media/eris/backups
-	sshfs -o idmap=user -o uid=$(id -u) -o gid=$(id -g) eris:/media/btrfs3-new/backups /media/eris/backups
-	;;
-
-"mount-backup")
-	mkdir -p /media/eris/backups
-	sshfs -o idmap=user -o uid=$(id -u) -o gid=$(id -g) eris:/media/btrfs3-new/backups /media/eris/backups
+    mkdir -p /media/eris/eris
+	sshfs -o idmap=user -o uid=$(id -u) -o gid=$(id -g) eris:/media/btrfs3-new/stuff /media/eris/eris
 	;;
 
 "unmount")
-    for f in /media/eris/*; do fusermount -u $f; done
+	shares=(seagate2 eris)
+	for f in $shares; do fusermount -u /media/eris/$f; done
+	;;
+
+"mount-backup")
+	mkdir -p /media/eris/backup
+	sshfs -o idmap=user -o uid=$(id -u) -o gid=$(id -g) ross@eris:/media/btrfs3-new/backups/nyx /media/eris/backup
+	;;
+
+"unmount-backup")
+	shares=(backup)
+	for f in $shares; do fusermount -u /media/eris/$f; done
+	rmdir /media/eris/backup
 	;;
 
 
