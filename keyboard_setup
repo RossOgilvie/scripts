@@ -1,11 +1,11 @@
 #!/bin/sh
 
-file=/tmp/keyboard
-lock=/tmp/keyboard_lock
+export HOME=/home/ross
+export DISPLAY=:0
+export XAUTHORITY=/home/ross/.Xauthority
 
-function stuff() {
 ## wait a bit for the device to finish being created
-sleep 1
+# sleep 1
 
 ## do your stuff
 numlockx on
@@ -13,25 +13,4 @@ xmodmap $HOME/.xmodmap_standard
 xmodmap $HOME/.xmodmap_greek
 
 ## boast about said stuff
-notify-send -t 1000 "Xmodmap successful."
-
-## wait a while so other event pass-by
-sleep 10
-## now clean up the lock
-rm $lock
-}
-
-echo "" > $file
-
-## Read from a file continuously (-f), ignoring errors (-q)
-## when the line is "keyboard_add" then proceed
-tail -q -f $file | while read line; do
-  if [[ "${line}" =~ "keyboard_add" ]]; then
-    ## if no lock file
-    if [[ ! (-f $lock) ]]; then
-      ## make a lock file so this runs only once
-      touch $lock
-      stuff &
-    fi
-	fi
-done
+# notify-send -t 1000 "Keyboard activated."

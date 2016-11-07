@@ -1,11 +1,13 @@
 #!/bin/zsh
 
-COMPLETION='compctl -k "(help bash-completion current refresh random reddit)" wallpaper'
+COMPLETION='compctl -k "(help bash-completion current refresh random reddit save-reddit)" wallpaper'
 
 WALLPAPERS="/home/ross/pictures/Wallpaper/"
+SUBREDDIT_URL="https://imgur.com/r/skyporn+weatherporn"
+
 CURRENT_LN=$WALLPAPERS"current"
 DIR=$WALLPAPERS"Single/"
-REDDIT=$WALLPAPERS"reddit"
+REDDIT=$WALLPAPERS"reddit.jpg"
 
 function count_screens() {
 	STATUS=$(/home/ross/.scripts/screens status)
@@ -25,12 +27,23 @@ function bg_set_random() {
 	set_wallpaper $CHOICE
 }
 
+function bg_refresh() {
+	REALPATH=$(realpath $CURRENT_LN)
+
+	set_wallpaper $REALPATH
+}
+
 function bg_fetch_reddit() {
-	ID="$(wget -q "http://imgur.com/r/wallpapers" -O - | grep '"post"' | grep class | cut -d\" -f 2 | head -1)"
+	ID="$(wget -q $SUBREDDIT_URL -O - | grep '"post"' | grep class | cut -d\" -f 2 | head -1)"
 	echo "Downloading $ID.jpg"
-	wget -c -q -N "http://i.imgur.com/$ID.jpg" -O $REDDIT
+	wget -q "http://i.imgur.com/$ID.jpg" -O $REDDIT
 
 	set_wallpaper $REDDIT
+}
+
+function bg_save_reddit() {
+	NEW_FILE='reddit_'$(date +%F-%H%M%S)'.jpg'
+	cp $REDDIT $NEW_FILE
 }
 
 function set_wallpaper() {
@@ -58,7 +71,7 @@ case $1 in
 	;;
 
 "refresh")
-	set_wallpaper $CURRENT_LN
+	bg_refresh
 	;;
 
 "random")
@@ -67,6 +80,10 @@ case $1 in
 
 "reddit")
 	bg_fetch_reddit
+	;;
+
+"save-reddit")
+	bg_save_reddit
 	;;
 
 *)

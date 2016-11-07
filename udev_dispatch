@@ -1,0 +1,25 @@
+#!/bin/sh
+
+export HOME=/home/ross
+export DISPLAY=:0
+export XAUTHORITY=/home/ross/.Xauthority
+
+LOG=/tmp/udev_dispatch.log
+
+## Log this.
+echo $1 >> $LOG
+## Remove the file so it can be run again.
+rm /home/ross/.udev_flags/$1
+
+case $1 in
+    "keyboard")
+    /home/ross/.scripts/keyboard_setup
+    ;;
+    "monitor")
+    /home/ross/.scripts/screens
+    ;;
+    *)
+    echo Unrecognised udev-flag command: $1 >> $LOG
+    exit 1
+    ;;
+esac

@@ -6,10 +6,15 @@ filepath=`realpath $wallpaperln`
 filename=`basename $filepath`
 fileext=${filename##*.}
 
+SIZE=$(/home/ross/.scripts/screens resolution)
+
 wallpath=/tmp/wallpaper.$fileext
 imagepath=/tmp/lock_screen.png
 
 #echo $imagepath > /tmp/lock_screen_path
 
 \cp $filepath $wallpath
-convert $wallpath /home/ross/pictures/Wallpaper/lock_grey.png -gravity center -composite -matte -format png $imagepath
+## kill any already running convert processes, as we only want the most recent image and there can be race conditions
+pkill convert
+## The square brackets after the input forces an immediate resize. This speeds up subsequent operations.
+convert $wallpath"[$SIZE]" /home/ross/pictures/Wallpaper/lock_grey.png -gravity center -composite -matte -format png $imagepath

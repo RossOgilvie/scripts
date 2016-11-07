@@ -1,0 +1,6 @@
+#!/bin/sh
+
+su ross <<EOF
+mkdir -p /home/ross/.udev_flags
+touch /home/ross/.udev_flags/$1
+EOF
