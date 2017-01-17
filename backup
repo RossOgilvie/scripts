@@ -7,9 +7,19 @@ eris=/home/ross/.scripts/eris
 backup_log=/home/ross/.backup_log
 folders=('/etc' '/home/ross/Dropbox' '/home/ross/.dotphiles' '/home/ross/.scripts' '/home/ross/pictures' $backup_log)
 
-rsync_opts="-az --delete -e ssh"
+# rsync_opts="-az --delete -e ssh"
+# -a = rlptgoD
+# -r recursive
+# -l copy links as links
+# -p
+# -z compress
+# -u update (skip newer files)
+# -v verbose
+# -t preserve times
+rsync_opts="-rlzuv --omit-dir-times --delete"
 #rsync_opts="-avz -e ssh"
-remote_base="/media/eris/backup"
+remote_base="/run/media/ross/btrfs3-new/backups/nyx"
+# remote_base="/media/eris/backup"
 
 lock_file=/tmp/backup.lock
 
@@ -37,7 +47,7 @@ lock
 
 trap cleanup INT TERM EXIT
 
-$eris mount-backup || exit 1
+# $eris mount-backup || exit 1
 
 ## create a file to record the time to of the backup
 touch $backup_log/$(date +%y%m%d-%H%M)
