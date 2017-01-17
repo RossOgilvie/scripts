@@ -23,8 +23,8 @@ case $1 in
     mkdir -p /media/eris/seagate2
 	sshfs -o idmap=user -o uid=$(id -u) -o gid=$(id -g) eris:/media/seagate2 /media/eris/seagate2
 
-    mkdir -p /media/eris/eris
-	sshfs -o idmap=user -o uid=$(id -u) -o gid=$(id -g) eris:/media/btrfs3-new/stuff /media/eris/eris
+#    mkdir -p /media/eris/eris
+#	sshfs -o idmap=user -o uid=$(id -u) -o gid=$(id -g) eris:/media/btrfs3-new/stuff /media/eris/eris
 	;;
 
 "unmount")
