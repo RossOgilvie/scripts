@@ -1,11 +1,45 @@
 #!/bin/zsh
+#
+# ## It's necessary to use zathura$ as the regex, because this script otherwise matches!
+# [[ -n $pdf ]] && (pgrep "zathura$" || (zathura "$pdf" & ))
 
-sync="$1"
-pdf="$2"
+output="$1"
+line="$2"
+col="$3"
+input="$4"
 
-(zathura --synctex-forward "$sync" "$pdf" 2> /dev/null) || \
-    (
-    zathura -x 'atom %{input}:%{line}' "$pdf" &
-    sleep 1
-    zathura --synctex-forward "$sync" "$pdf"
-    )
+# log=/tmp/zathura-synctex-log
+# echo "pdf: " $output >> $log
+# echo "tex: " $input >> $log
+# echo "line: " $line >> $log
+
+pidfile=$(dirname $output)/.$(basename $output).zpid
+if [[ -f $pidfile ]]; then
+    zpid=$(<$pidfile)
+else
+    zpid=0
+fi
+
+fsearch_args=(--synctex-forward "$line:$col:$input" "$output")
+
+if [[ -n "$line" && -n "$col" && -n "$output" ]]; then
+    # Check if zathura is already running
+    if ! zathura --synctex-pid $zpid "${fsearch_args[@]}"; then
+	# Start new instance and write the PID.
+	zathura -x 'atom %{input}:%{line}' "$output" &
+	zpid=$!
+	echo $zpid > $pidfile
+
+	# Wait a max of 1 second for the new window to come up
+	for (( i=0; i < 10; i++ )); do
+	    zathura --synctex-pid $zpid "${fsearch_args[@]}" && break
+	    sleep .1
+	done
+    # else
+	# Activate window
+	# FvwmCommand "Next ('Zathura', '*$output', CurrentPage) WindowListFunc"
+    fi
+else
+    # Just view, without writing PID.
+    exec zathura "$output"
+fi

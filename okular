@@ -7,9 +7,16 @@ pdf_file=$(grep -o '^[^#]*' <<< "$arg")
 tex_file=$(sed -n -e 's_.*src:[0-9]*\(.*\)_\1_p' <<< "$arg")
 line_num=$(sed -n -e 's_.*src:\([0-9]*\).*_\1_p' <<< "$arg")
 
-#echo "pdf: " $pdf_file >> /home/ross/log
-#echo "tex: " $tex_file >> /home/ross/log
-#echo "line: " $line_num >> /home/ross/log
+# log=/tmp/okular-log
+# echo "1: " $1 >> $log
+# echo "2: " $2 >> $log
+# echo "3: " $3 >> $log
+# echo "pdf: " $pdf_file >> $log
+# echo "tex: " $tex_file >> $log
+# echo "line: " $line_num >> $log
 
 #zathura-synctex "$line_num:1:$tex_file" "$pdf_file"
-$synctex "$line_num:1:$tex_file" "$pdf_file"
+# $synctex "$line_num:1:$tex_file" "$pdf_file"
+if [[ -n $pdf_file ]]; then
+    $synctex "$pdf_file" $line_num 1 "$tex_file"
+fi
