@@ -13,10 +13,13 @@ rm /home/ross/.udev_flags/$1
 
 case $1 in
     "keyboard")
-    /home/ross/.scripts/keyboard_setup
+    /home/ross/.scripts/keyboard_setup >> $LOG
     ;;
     "monitor")
     /home/ross/.scripts/screens
+    ;;
+    "clean")
+    rm /home/ross/.udev_flags/*
     ;;
     *)
     echo Unrecognised udev-flag command: $1 >> $LOG
