@@ -4,38 +4,33 @@ power=$(cat '/sys/class/power_supply/BAT1/capacity')
 status=$(cat '/sys/class/power_supply/BAT1/status')
 
 if [[ $status == "Full" ]]; then
-icon_name="/usr/share/icons/Adwaita/48x48/status/battery-full-charged.png"
+icon_name="/usr/share/icons/elementary/status/48/battery-ac-adapter.svg"
 
 
 elif [[ $status == "Charging" ]]; then
-icon_name="/usr/share/icons/Adwaita/48x48/status/battery-full-charging.png"
+icon_name="/usr/share/icons/elementary/status/48/battery-full-charging.png"
 if (( $power < 95 )); then
-    icon_name="/usr/share/icons/Adwaita/48x48/status/battery-good-charging.png"
+    icon_name="/usr/share/icons/elementary/status/48/battery-good-charging.png"
 fi
 if (( $power < 15 )); then
-    #    icon_name="/usr/share/icons/elementary/status/48/battery-caution.svg"
-    icon_name="/usr/share/icons/Adwaita/48x48/status/battery-low-charging.png"
+   icon_name="/usr/share/icons/elementary/status/48/battery-caution-charging.svg"
 fi
 if (( $power < 5 )); then
-    #    icon_name="/usr/share/icons/elementary/status/48/battery-empty.svg"
-    icon_name="/usr/share/icons/Adwaita/48x48/status/battery-caution-charging.png"
+   icon_name="/usr/share/icons/elementary/status/48/battery-empty-charging.svg"
 fi
 
 
 else
-#icon_name="/usr/share/icons/elementary/status/48/battery-good.svg"
-icon_name="/usr/share/icons/Adwaita/48x48/status/battery-full.png"
+icon_name="/usr/share/icons/elementary/status/48/battery-full.svg"
 
 if (( $power < 95 )); then
-    icon_name="/usr/share/icons/Adwaita/48x48/status/battery-good.png"
+    icon_name="/usr/share/icons/elementary/status/48/battery-good.png"
 fi
 if (( $power < 15 )); then
-#    icon_name="/usr/share/icons/elementary/status/48/battery-caution.svg"
-    icon_name="/usr/share/icons/Adwaita/48x48/status/battery-low.png"
+   icon_name="/usr/share/icons/elementary/status/48/battery-caution.svg"
 fi
 if (( $power < 5 )); then
-#    icon_name="/usr/share/icons/elementary/status/48/battery-empty.svg"
-    icon_name="/usr/share/icons/Adwaita/48x48/status/battery-caution.png"
+   icon_name="/usr/share/icons/elementary/status/48/battery-empty.svg"
 fi
 
 fi

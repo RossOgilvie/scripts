@@ -10,8 +10,7 @@ function show {
 	# volnoti-show -s /usr/share/pixmaps/volnoti/keyboard_backlight.png $((`$0 level` * 12.5))
 	# level=$( printf "%.0f" $(($level * 12.5)) )
 	level=$(($level * 13))
-	icon_name="/usr/share/icons/Adwaita/48x48/status/keyboard-brightness-symbolic.symbolic.png"
-	# icon_name="/usr/share/pixmaps/keyboard_backlight.png"
+	icon_name="/usr/share/pixmaps/keyboard_backlight.png"
 	# icon_name="/usr/share/notify-osd/icons/hicolor/scalable/status/notification-keyboard-brightness.svg"
 	notify-send " " -i $icon_name -h int:value:$level -h string:synchronous:brightness
 }

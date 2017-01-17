@@ -5,33 +5,22 @@ muted=$2
 headphones=$3
 
 if [ "$volume" = "0" ]; then
-    # icon_name="notification-audio-volume-off"
-    icon_name="/usr/share/icons/Adwaita/48x48/status/audio-volume-low.png"
+    icon_name="/usr/share/icons/elementary/status/48/audio-volume-low-symbolic.svg"
+elif [ "$volume" -lt "33" ]; then
+    icon_name="/usr/share/icons/elementary/status/48/audio-volume-low-symbolic.svg"
+elif [ "$volume" -lt "67" ]; then
+    icon_name="/usr/share/icons/elementary/status/48/audio-volume-medium-symbolic.svg"
 else
-    if [ "$volume" -lt "33" ]; then
-        # icon_name="notification-audio-volume-low"
-        icon_name="/usr/share/icons/Adwaita/48x48/status/audio-volume-low.png"
-    else
-        if [ "$volume" -lt "67" ]; then
-            # icon_name="notification-audio-volume-medium"
-            icon_name="/usr/share/icons/Adwaita/48x48/status/audio-volume-medium.png"
-        else
-            # icon_name="notification-audio-volume-high"
-            icon_name="/usr/share/icons/Adwaita/48x48/status/audio-volume-high.png"
-        fi
-    fi
+    icon_name="/usr/share/icons/elementary/status/48/audio-volume-high-symbolic.svg"
 fi
 
 if [[ "$headphones" = "on" ]]; then
-    # icon_name="/usr/share/icons/gnome/48x48/devices/audio-headphones.png"
-    # icon_name="/usr/share/icons/gnome/scalable/devices/audio-headphones-symbolic.svg"
-    icon_name="/usr/share/icons/Adwaita/48x48/devices/audio-headphones.png"
+    icon_name="/usr/share/icons/gnome/scalable/devices/audio-headphones-symbolic.svg"
 fi
 
 echo $muted
 if [[ "$muted" = "yes" ]]; then
-    # icon_name="notification-audio-volume-muted"
-    icon_name="/usr/share/icons/Adwaita/48x48/status/audio-volume-muted.png"
+    icon_name="/usr/share/icons/elementary/status/48/audio-volume-muted-symbolic.svg"
 fi
 
 
