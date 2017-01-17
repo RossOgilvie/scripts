@@ -1,14 +1,45 @@
 #!/bin/sh
 
 power=$(cat '/sys/class/power_supply/BAT1/capacity')
+status=$(cat '/sys/class/power_supply/BAT1/status')
 
-icon_name="/usr/share/icons/elementary/status/48/battery-good.svg"
+if [[ $status == "Full" ]]; then
+icon_name="/usr/share/icons/Adwaita/48x48/status/battery-full-charged.png"
 
-if (( $power < 10 )); then
-    icon_name="/usr/share/icons/elementary/status/48/battery-caution.svg"
+
+elif [[ $status == "Charging" ]]; then
+icon_name="/usr/share/icons/Adwaita/48x48/status/battery-full-charging.png"
+if (( $power < 95 )); then
+    icon_name="/usr/share/icons/Adwaita/48x48/status/battery-good-charging.png"
+fi
+if (( $power < 15 )); then
+    #    icon_name="/usr/share/icons/elementary/status/48/battery-caution.svg"
+    icon_name="/usr/share/icons/Adwaita/48x48/status/battery-low-charging.png"
 fi
 if (( $power < 5 )); then
-    icon_name="/usr/share/icons/elementary/status/48/battery-empty.svg"
+    #    icon_name="/usr/share/icons/elementary/status/48/battery-empty.svg"
+    icon_name="/usr/share/icons/Adwaita/48x48/status/battery-caution-charging.png"
 fi
 
-notify-send " " -i $icon_name -h int:value:$power -h string:synchronous:volume
+
+else
+#icon_name="/usr/share/icons/elementary/status/48/battery-good.svg"
+icon_name="/usr/share/icons/Adwaita/48x48/status/battery-full.png"
+
+if (( $power < 95 )); then
+    icon_name="/usr/share/icons/Adwaita/48x48/status/battery-good.png"
+fi
+if (( $power < 15 )); then
+#    icon_name="/usr/share/icons/elementary/status/48/battery-caution.svg"
+    icon_name="/usr/share/icons/Adwaita/48x48/status/battery-low.png"
+fi
+if (( $power < 5 )); then
+#    icon_name="/usr/share/icons/elementary/status/48/battery-empty.svg"
+    icon_name="/usr/share/icons/Adwaita/48x48/status/battery-caution.png"
+fi
+
+fi
+
+echo $power
+
+notify-send "$power" -i $icon_name -h int:value:$power -h string:synchronous:volume

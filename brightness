@@ -6,8 +6,8 @@
 # export DISPLAY XAUTHORITY HOME
 
 show() {
-  # volnoti-show -s /usr/share/pixmaps/volnoti/display-brightness-symbolic.svg `xbacklight`
-  icon_name="/usr/share/notify-osd/icons/hicolor/scalable/status/display-brightness-symbolic.svg"
+  # icon_name="/usr/share/notify-osd/icons/hicolor/scalable/status/display-brightness-symbolic.svg"
+  icon_name="/usr/share/icons/Adwaita/48x48/status/display-brightness-symbolic.symbolic.png"
   level=$( printf "%.0f" `xbacklight` )
   notify-send " " -i $icon_name -h int:value:$level -h string:synchronous:brightness
 }

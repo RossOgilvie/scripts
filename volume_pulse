@@ -34,7 +34,8 @@ if [[ `pactl list sinks` =~ "Active Port: analog-output-speaker" ]]; then echo "
 
 function show {
   # echo `get_level` `muted`
-  /home/ross/.local/bin/volume-show `get_level` `muted` `headphone`
+  # /home/ross/.local/bin/volume-show `get_level` `muted` `headphone`
+  /home/ross/.scripts/volume_show `get_level` `muted` `headphone`
 }
 
 case $1 in
