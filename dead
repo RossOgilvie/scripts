@@ -1,0 +1,12 @@
+#!/bin/sh
+
+i=0
+
+while [[ $(pgrep $1) > 0 ]]; 
+    do 
+    echo grrr arrg $i
+    (( ++i ))
+    sleep 1
+done
+    
+echo "It's dead Jim"
