@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd /etc/openvpn/client/PIA
+sudo openvpn --auth-user-pass login.cred Singapore.ovpn
+echo "nameserver 8.8.8.8" | sudo resolvconf -a wlan0.inet
