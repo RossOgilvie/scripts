@@ -26,7 +26,7 @@ function height(){
 }
 
 function side_by_side(){
-	EXECUTE+="--output $SEC_OUTPUT --auto --right-of $DEFAULT_OUTPUT --primary "
+	EXECUTE+="--output $SEC_OUTPUT --auto --left-of $DEFAULT_OUTPUT --primary "
 	$EXECUTE
 	$WALLPAPER
 }
