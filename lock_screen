@@ -1,7 +1,14 @@
 #!/bin/zsh
 
-image="/tmp/lock_screen.png"
-lock="/home/ross/pictures/Wallpaper/lock_grey.png"
+locked_wallpaper=/home/ross/pictures/Wallpaper/current_lock
+# i3lock -i $locked_wallpaper -z -u
+i3lock -i $locked_wallpaper -z -u
+
+
+#### OLD STUFF
+# Superceded by prep_lock_screen script
+
+# lock="/home/ross/pictures/Wallpaper/lock_grey.png"
 
 ## Take a screenshot
 #scrot $image
@@ -21,4 +28,3 @@ BLURTYPE="2x8" # 2.90s
 #[[ -f $lock ]] && convert $image $lock -gravity center -composite -matte $image
 
 #i3lock --textcolor=00000000 --insidecolor=00000000 --ringcolor=008800ff --linecolor=00000000 --keyhlcolor=00ff00ff --ringvercolor=cccc00ff --insidevercolor=cccc0000 --ringwrongcolor=ff0000ff --insidewrongcolor=ff000000 -i $image
-i3lock -i $image -z -u

@@ -1,20 +1,22 @@
 #!/bin/sh
 ## make an image ready for the lockscreen
 
-wallpaperln=/home/ross/pictures/Wallpaper/current
-filepath=`realpath $wallpaperln`
-filename=`basename $filepath`
-fileext=${filename##*.}
 
+wallpaper=$1
+filename=`basename $wallpaper`
+sansext="${filename%.*}"
 SIZE=$(/home/ross/.scripts/screens resolution)
+lock=/home/ross/pictures/Wallpaper/lock_grey.png
+output=/home/ross/pictures/Wallpaper/locked/$sansext.lock.png
+locked_wallpaper=/home/ross/pictures/Wallpaper/current_lock
 
-wallpath=/tmp/wallpaper.$fileext
-imagepath=/tmp/lock_screen.png
+rm $locked_wallpaper
+ln -s $output $locked_wallpaper
 
-#echo $imagepath > /tmp/lock_screen_path
-
-\cp $filepath $wallpath
-## kill any already running convert processes, as we only want the most recent image and there can be race conditions
-pkill convert
-## The square brackets after the input forces an immediate resize. This speeds up subsequent operations.
-convert $wallpath"[$SIZE]" /home/ross/pictures/Wallpaper/lock_grey.png -gravity center -composite -matte -format png $imagepath
+if [ ! -e "$output" ]
+then
+  ## kill any already running convert processes, as there can be race conditions
+  pkill convert
+  ## The square brackets after the input forces an immediate resize. This speeds up subsequent operations, and makes the lock a standard size.
+  convert $wallpaper"[$SIZE]" $lock -gravity center -composite -matte -format png $output
+fi
