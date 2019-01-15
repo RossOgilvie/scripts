@@ -8,9 +8,9 @@ icon_name="/usr/share/icons/elementary/status/48/battery-ac-adapter.svg"
 
 
 elif [[ $status == "Charging" ]]; then
-icon_name="/usr/share/icons/elementary/status/48/battery-full-charging.png"
+icon_name="/usr/share/icons/elementary/status/48/battery-full-charging.svg"
 if (( $power < 95 )); then
-    icon_name="/usr/share/icons/elementary/status/48/battery-good-charging.png"
+    icon_name="/usr/share/icons/elementary/status/48/battery-good-charging.svg"
 fi
 if (( $power < 15 )); then
    icon_name="/usr/share/icons/elementary/status/48/battery-caution-charging.svg"
@@ -24,7 +24,7 @@ else
 icon_name="/usr/share/icons/elementary/status/48/battery-full.svg"
 
 if (( $power < 95 )); then
-    icon_name="/usr/share/icons/elementary/status/48/battery-good.png"
+    icon_name="/usr/share/icons/elementary/status/48/battery-good.svg"
 fi
 if (( $power < 15 )); then
    icon_name="/usr/share/icons/elementary/status/48/battery-caution.svg"
@@ -34,8 +34,9 @@ if (( $power < 5 )); then
 fi
 
 fi
-echo $icon_name
-echo $power
 
-# notify-send " " -i $icon_name -h int:value:$power -h string:synchronous:battery
-notify-send "$power"
+# echo $icon_name
+# echo $power
+
+notify-send "$power" -i $icon_name
+# notify-send " "  -h int:value:$power -h string:synchronous:battery
