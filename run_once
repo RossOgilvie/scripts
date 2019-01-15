@@ -1,3 +1,0 @@
-#!/bin/sh
-#Alternative
-pgrep $@ > /dev/null || ($@ &)

@@ -1,0 +1,39 @@
+#!/bin/zsh
+
+# i3lock -B 1 --textcolor=ffffff00 --insidecolor=ffffff1c --ringcolor=ffffff3e --linecolor=ffffff00 --keyhlcolor=00000080 --ringvercolor=00000000 --separatorcolor=22222260 --insidevercolor=0000001c --ringwrongcolor=00000055 --insidewrongcolor=0000001c
+
+B='#00000000'  # blank
+D='#ddddddff'  # light grey default
+T='#000000ff'  # black text
+H='#57c7ffff'  # blue highlight
+W='#990000ff'  # red wrong
+Z='#00ff00ff'  # green test
+
+i3lock \
+--insidevercolor=$D   \
+--ringvercolor=$D     \
+\
+--insidewrongcolor=$W \
+--ringwrongcolor=$W   \
+\
+--insidecolor=$D      \
+--ringcolor=$D        \
+--linecolor=$D        \
+--separatorcolor=$D   \
+--keyhlcolor=$H       \
+\
+--verifcolor=$T        \
+--wrongcolor=$T        \
+--timecolor=$T        \
+--datecolor=$T        \
+--layoutcolor=$T      \
+--bshlcolor=$Z        \
+\
+--screen 1            \
+--blur 5              \
+--clock               \
+--indicator           \
+--timestr="%H:%M:%S"  \
+--datestr="%A, %m %Y" \
+# --keylayout 2         \
+

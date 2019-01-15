@@ -1,0 +1,5 @@
+#!/bin/sh
+
+cd /home/ross/.dotphiles/hunspell
+wc -l < hunspell_latex.raw > hunspell_latex.dic
+sort hunspell_latex.raw | uniq >> hunspell_latex.dic

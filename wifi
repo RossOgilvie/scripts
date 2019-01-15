@@ -1,0 +1,52 @@
+#!/bin/sh
+
+completion='compctl -k "(help bash-completion auto stop start restart eduroam unisydney)" wifi'
+
+case $1 in
+"help")
+	echo "Available options: "
+	;;
+
+"bash-completion")
+	echo "$completion"
+	;;
+
+"stop")
+	sudo systemctl stop netctl-auto@wlan0.service
+	;;
+"start")
+	sudo systemctl start netctl-auto@wlan0.service
+	;;
+"restart" | "fuck")
+	sudo systemctl restart netctl-auto@wlan0.service
+	;;
+
+"eduroam")
+	sudo systemctl stop netctl-auto@wlan0.service
+	sudo netctl restart wlan0-eduroam
+	;;
+"unisydney")
+	sudo systemctl stop netctl-auto@wlan0.service
+	sudo netctl restart wlan0-UniSydney
+	;;
+
+"auto")
+	sudo netctl stop-all
+	sudo systemctl restart netctl-auto@wlan0.service
+	;;
+
+"toggle")
+	if (systemctl -q is-active netctl-auto@wlan0.service)
+		then
+		# Auto is running, turn to unisydney
+		$0 unisydney
+	else
+		# Auto is no running, turn it on
+		$0 auto
+	fi
+	;;
+
+*)
+	netctl list
+	;;
+esac

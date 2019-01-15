@@ -1,0 +1,27 @@
+#!/bin/zsh
+
+function do_rename {
+timestamp=$(exiv2 -g Exif.Image.DateTime -Pt "$file")
+
+read YEAR MONTH DAY HOUR MINUTE SECOND <<<${timestamp//:/ }
+
+if [[ -z $YEAR ]]; then 
+return
+fi
+
+echo $YEAR$MONTH$DAY\_$HOUR$MINUTE\_$file
+mv $file $YEAR$MONTH$DAY\_$HOUR$MINUTE\_$file
+}
+
+for file in *.JPG(N); 
+do
+do_rename
+done;
+for file in *.jpg(N); 
+do
+do_rename
+done;
+for file in *.png(N); 
+do
+do_rename
+done;

@@ -51,7 +51,7 @@ function set_wallpaper() {
 	rm $CURRENT_LN
 	ln -s $1 $CURRENT_LN
 
-	/home/ross/.scripts/prep_lock_screen $1
+#	/home/ross/.scripts/prep_lock_screen $1
 }
 
 case $1 in

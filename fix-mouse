@@ -1,5 +1,0 @@
-#!/bin/bash
-
-fix-mouse () {
-	printf '\e[?1000l'
-}

@@ -1,0 +1,24 @@
+#!/bin/zsh
+# set -x
+
+folders=('/etc' '/home/ross/Dropbox' '/home/ross/programming' '/home/ross/.dotphiles' '/home/ross/.scripts')
+
+#rsync_opts="-avz --delete -e ssh"
+rsync_opts="-avz -e ssh"
+remote_base="ross@eris:/mnt/btrfs-pool3/backups/nyx"
+
+## LOCKFILE STUFF
+lock() {
+    lock_file=/tmp/backup.lock
+    integer myfd
+    exec {myfd}<>$lock_file
+    flock -n $myfd \
+        && return 0 \
+        || return 1
+}
+
+lock || exit 1
+
+for f in $folders; do
+    rsync ${=rsync_opts} $f/ $remote_base$f/
+done

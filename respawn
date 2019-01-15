@@ -1,5 +1,0 @@
-#!/bin/sh
-
-while [ 0 -lt 1 ]; do
-    $*
-done

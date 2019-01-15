@@ -1,13 +1,17 @@
-#!/bin/sh
-#
-# DISPLAY=":0"
-# HOME=/home/ross
-# XAUTHORITY=$HOME/.Xauthority
-# export DISPLAY XAUTHORITY HOME
+#!/bin/zsh
+
+ratio=1.5
 
 show() {
   icon_name="/usr/share/notify-osd/icons/hicolor/scalable/status/display-brightness-symbolic.svg"
   level=$( printf "%.0f" `xbacklight` )
+  echo $level
+  # look at this shitty scaling function since I don't have a logarithm to use
+  ((level = 100 - level))
+  ((level = level * level * level * level))
+  ((level = level / 1000000))
+  ((level = 100 - level))
+  echo $level
   notify-send " " -i $icon_name -h int:value:$level -h string:synchronous:brightness
 }
 
@@ -16,11 +20,17 @@ case $1 in
   echo "Usage: up|down|level"
   ;;
 "up")
-  xbacklight -inc 10
+  val=$( xbacklight -get )
+  (( $val == 0 )) && ((val=0.2))
+  ((newval = val * ratio))
+  xbacklight -set $newval
   show
   ;;
 "down")
-  xbacklight -dec 10
+  val=$( xbacklight -get )
+  (( $val < 0.5 )) && ((val=0))
+  ((newval = val / ratio))
+  xbacklight -set $newval
   show
   ;;
 "level")

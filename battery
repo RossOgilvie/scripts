@@ -34,7 +34,8 @@ if (( $power < 5 )); then
 fi
 
 fi
-
+echo $icon_name
 echo $power
 
-notify-send "$power" -i $icon_name -h int:value:$power -h string:synchronous:volume
+# notify-send " " -i $icon_name -h int:value:$power -h string:synchronous:battery
+notify-send "$power"
