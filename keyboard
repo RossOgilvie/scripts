@@ -1,0 +1,46 @@
+#!/bin/sh
+#
+# This script toggles the extended monitor outputs if something is connected
+#
+
+export HOME=/home/ross
+export DISPLAY=:0
+export XAUTHORITY=/home/ross/.Xauthority
+
+completion='compctl -k "(help bash-completion setup braces brackets)" keyboard'
+
+notify=$2
+
+case $1 in
+"setup")
+    numlockx on
+	xmodmap $HOME/.xmodmap_standard
+    xmodmap $HOME/.xmodmap_greek
+    xmodmap $HOME/.xmodmap_braces
+    if [[ ! -z notify ]] # not empty
+		then
+		notify-send -i /usr/share/icons/gnome/48x48/devices/keyboard.png "Keyboard set up."
+	fi
+	;;
+"braces")
+	xmodmap $HOME/.xmodmap_braces
+    if [[ ! -z notify ]] # not empty
+		then
+		notify-send -i /usr/share/icons/gnome/48x48/devices/keyboard.png "Braces set to primary."
+	fi
+	;;
+"brackets")
+	xmodmap $HOME/.xmodmap_sbrackets
+    if [[ ! -z notify ]] # not empty
+		then
+		notify-send -i /usr/share/icons/gnome/48x48/devices/keyboard.png "Square Brackets set to primary."
+	fi
+	;;
+"bash-completion")
+	echo "$completion"
+	;;
+"--help"|"-h"|"help"|*)
+	echo "Available options: help bash-completion setup braces brackets"
+	exit
+	;;
+esac

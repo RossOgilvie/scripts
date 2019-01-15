@@ -1,19 +1,2 @@
 #!/bin/sh
-
-export HOME=/home/ross
-export DISPLAY=:0
-export XAUTHORITY=/home/ross/.Xauthority
-
-## wait a bit for the device to finish being created
-# sleep 1
-
-# echo "here"
-
-## do your stuff
-numlockx on
-xmodmap $HOME/.xmodmap_standard
-xmodmap $HOME/.xmodmap_greek
-xmodmap $HOME/.xmodmap_braces
-
-## boast about said stuff
-# notify-send -t 1000 "Keyboard activated."
+/home/ross/.scripts/keyboard setup
