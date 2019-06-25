@@ -4,6 +4,10 @@ volume=$1
 muted=$2
 headphones=$3
 
+# echo $volume
+# echo $muted
+# echo $headphones
+
 if [ "$volume" = "0" ]; then
     icon_name="/usr/share/icons/elementary/status/48/audio-volume-low-symbolic.svg"
 elif [ "$volume" -lt "33" ]; then
@@ -14,11 +18,10 @@ else
     icon_name="/usr/share/icons/elementary/status/48/audio-volume-high-symbolic.svg"
 fi
 
-if [[ "$headphones" = "on" ]]; then
+if [[ "$headphones" = "yes" ]]; then
     icon_name="/usr/share/icons/gnome/scalable/devices/audio-headphones-symbolic.svg"
 fi
 
-echo $muted
 if [[ "$muted" = "yes" ]]; then
     icon_name="/usr/share/icons/elementary/status/48/audio-volume-muted-symbolic.svg"
 fi
@@ -29,4 +32,3 @@ fi
 
 notify-send " " -i $icon_name -h int:value:$volume -h string:synchronous:volume
 
-# volnoti-show $volume
