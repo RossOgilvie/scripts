@@ -3,9 +3,9 @@
 
 # exec &>> /tmp/test
 
-eris=/home/ross/.scripts/eris
-backup_log=/home/ross/.backup_log
-folders=('/etc' '/home/ross/Dropbox' '/home/ross/.dotphiles' '/home/ross/.scripts' '/home/ross/pictures' $backup_log)
+backup_log=/home/ross/.backup_logs
+folders=('/etc' '/home/ross/Dropbox' '/home/ross/music' '/home/ross/pictures' '/home/ross/programming' '/home/ross/.dotphiles' $backup_log)
+# excludes="'/home/ross/.cache','/home/ross/downloads','/home/ross/.mozilla','/home/ross/.hoogle',''"
 
 # rsync_opts="-az --delete -e ssh"
 # -a = rlptgoD
@@ -18,36 +18,8 @@ folders=('/etc' '/home/ross/Dropbox' '/home/ross/.dotphiles' '/home/ross/.script
 # -t preserve times
 rsync_opts="-rlzuv --omit-dir-times --delete"
 #rsync_opts="-avz -e ssh"
-remote_base="/run/media/ross/btrfs3-new/backups/nyx"
-# remote_base="/media/eris/backup"
+remote_base="/run/media/ross/btrfs700/backup"
 
-lock_file=/tmp/backup.lock
-
-## Always cleanup after
-function cleanup () {
-trap - INT TERM EXIT
-
-echo $?
-
-$eris unmount-backup
-[[ -f $lock_file ]] && rm $lock_file
-
-exit $?
-}
-
-## Check for a lock file
-function lock {
-[[ -f $lock_file ]] && exit 1
-touch $lock_file
-}
-
-
-main() {
-lock
-
-trap cleanup INT TERM EXIT
-
-# $eris mount-backup || exit 1
 
 ## create a file to record the time to of the backup
 touch $backup_log/$(date +%y%m%d-%H%M)
@@ -57,8 +29,3 @@ for f in $folders; do
     echo "====================="
     rsync ${=rsync_opts} $f/ $remote_base$f/
 done
-
-cleanup
-}
-
-main
