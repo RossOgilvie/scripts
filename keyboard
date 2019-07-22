@@ -7,19 +7,18 @@ export HOME=/home/ross
 export DISPLAY=:0
 export XAUTHORITY=/home/ross/.Xauthority
 
-completion='compctl -k "(help bash-completion setup braces brackets)" keyboard'
+completion='compctl -k "(help bash-completion setup braces brackets greek)" keyboard'
 
 notify=$2
 
 case $1 in
-"setup")
+"setup"|"normal")
     numlockx on
-	xmodmap $HOME/.xmodmap_standard
-    xmodmap $HOME/.xmodmap_greek
+		xmodmap $HOME/.xmodmap_standard
     xmodmap $HOME/.xmodmap_braces
     if [[ ! -z notify ]] # not empty
 		then
-		notify-send -i /usr/share/icons/gnome/48x48/devices/keyboard.png "Keyboard set up."
+		notify-send -i /usr/share/icons/gnome/48x48/devices/keyboard.png "Keyboard set up in normal config."
 	fi
 	;;
 "braces")
@@ -34,6 +33,13 @@ case $1 in
     if [[ ! -z notify ]] # not empty
 		then
 		notify-send -i /usr/share/icons/gnome/48x48/devices/keyboard.png "Square Brackets set to primary."
+	fi
+	;;
+"greek")
+	xmodmap $HOME/.xmodmap_greek
+    if [[ ! -z notify ]] # not empty
+		then
+		notify-send -i /usr/share/icons/gnome/48x48/devices/keyboard.png "Greek letters enabled."
 	fi
 	;;
 "bash-completion")
