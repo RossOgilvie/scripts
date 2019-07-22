@@ -9,11 +9,13 @@ completion='compctl -k "(help bash-completion mirror off toggle status auto reso
 DEFAULT_OUTPUT='eDP1'
 SEC_OUTPUT='HDMI1'
 #string to execute at the end
-EXECUTE="xrandr --output $DEFAULT_OUTPUT --auto "
+EXECUTE="xrandr --output $DEFAULT_OUTPUT --primary --auto "
 
 # WALLPAPER='echo wallpaper >> /tmp/screens.log'
 WALLPAPER='/home/ross/.scripts/wallpaper random'
 #WALLPAPER='/home/ross/.scripts/wallpaper refresh'
+
+WACOM='/home/ross/.scripts/wacom laptop'
 
 function resolution(){
 	echo `xrandr --current | sed -n 's/.* current \([0-9]*\) x \([0-9]*\).*/\1x\2/p'`
@@ -26,17 +28,19 @@ function height(){
 }
 
 function side_by_side(){
-	EXECUTE+="--output $SEC_OUTPUT --auto --left-of $DEFAULT_OUTPUT --primary "
+	EXECUTE+="--output $SEC_OUTPUT --auto --left-of $DEFAULT_OUTPUT "
 	$EXECUTE
 	$WALLPAPER
+	$WACOM
 }
 function mirror(){
 	EXECUTE+="--output $SEC_OUTPUT --auto --same-as $DEFAULT_OUTPUT "
 	$EXECUTE
 	$WALLPAPER
+	$WACOM
 }
 function off(){
-	EXECUTE+="--primary --output $SEC_OUTPUT --off "
+	EXECUTE+="--output $SEC_OUTPUT --off "
 	$EXECUTE
 	$WALLPAPER
 }

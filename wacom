@@ -1,0 +1,28 @@
+#!/bin/sh
+#
+# This script sets wacom tablet to only draw on one screen
+#
+
+completion='compctl -k "(help bash-completion laptop external)" wacom'
+
+# device names
+LAPTOP='eDP1'
+EXTERNAL='HDMI1'
+STYLUS='Wacom One by Wacom M Pen stylus'
+
+case $1 in
+"--help"|"-h"|"help")
+	echo "Available options: help;"
+	exit
+	;;
+"bash-completion")
+	echo "$completion"
+	;;
+
+"external")
+	xsetwacom set "$STYLUS" MapToOutput "$EXTERNAL"
+	;;
+"laptop"|*)
+	xsetwacom set "$STYLUS" MapToOutput "$LAPTOP"
+	;;
+esac
