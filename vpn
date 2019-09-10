@@ -1,0 +1,19 @@
+#!/bin/sh
+
+completion='compctl -k "(help bash-completion start stop)" vpn'
+
+case $1 in
+"help")
+	echo "Available options: help; start; stop; bash-completion"
+	;;
+
+"stop")
+	sudo nordvpn stop
+    route
+	;;
+
+"start" | *)
+	sudo nordvpn start $(sudo nordvpn list de | tail -n 1)
+    route
+	;;
+esac
