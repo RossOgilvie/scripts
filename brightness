@@ -1,16 +1,16 @@
 #!/bin/zsh
 
-ratio=1.5
+zmodload zsh/mathfunc
+
+ratioUP=1.5
+ratioDOWN=0.66
 
 show() {
   icon_name="/usr/share/notify-osd/icons/hicolor/scalable/status/display-brightness-symbolic.svg"
-  level=$( printf "%.0f" `xbacklight` )
+  # level=$( printf "%.0f" `light -G` )
+  level=`light -G`
   echo $level
-  # look at this shitty scaling function since I don't have a logarithm to use
-  ((level = 100 - level))
-  ((level = level * level * level * level))
-  ((level = level / 1000000))
-  ((level = 100 - level))
+  (( level = log( 1 + level) / log( 101 ) * 100 ))
   echo $level
   notify-send " " -i $icon_name -h int:value:$level -h string:synchronous:brightness
 }
@@ -20,21 +20,15 @@ case $1 in
   echo "Usage: up|down|level"
   ;;
 "up")
-  val=$( xbacklight -get )
-  (( $val == 0 )) && ((val=0.2))
-  ((newval = val * ratio))
-  xbacklight -set $newval
+  sudo light -T $ratioUP
   show
   ;;
 "down")
-  val=$( xbacklight -get )
-  (( $val < 0.5 )) && ((val=0))
-  ((newval = val / ratio))
-  xbacklight -set $newval
+  sudo light -T $ratioDOWN
   show
   ;;
 "level")
-  xbacklight
+  light -G
   ;;
 "show")
   show

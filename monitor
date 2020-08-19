@@ -6,8 +6,8 @@
 completion='compctl -k "(help bash-completion mirror off toggle status auto resolution height width)" monitor'
 
 # laptop monitor
-DEFAULT_OUTPUT='eDP1'
-SEC_OUTPUT='HDMI1'
+DEFAULT_OUTPUT='eDP-1'
+SEC_OUTPUT='HDMI-1'
 #string to execute at the end
 EXECUTE="xrandr --output $DEFAULT_OUTPUT --primary --auto "
 
