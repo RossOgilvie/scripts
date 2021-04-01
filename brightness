@@ -4,14 +4,16 @@ zmodload zsh/mathfunc
 
 ratioUP=1.5
 ratioDOWN=0.66
+level=100
+
+calc_level() {
+level=`light -G`
+(( level = log( 1 + level) / log( 101 ) * 100 ))
+}
 
 show() {
   icon_name="/usr/share/notify-osd/icons/hicolor/scalable/status/display-brightness-symbolic.svg"
-  # level=$( printf "%.0f" `light -G` )
-  level=`light -G`
-  echo $level
-  (( level = log( 1 + level) / log( 101 ) * 100 ))
-  echo $level
+  calc_level
   notify-send " " -i $icon_name -h int:value:$level -h string:synchronous:brightness
 }
 
@@ -28,7 +30,9 @@ case $1 in
   show
   ;;
 "level")
-  light -G
+  # light -G
+  calc_level
+  printf "%.0f\n" $level
   ;;
 "show")
   show

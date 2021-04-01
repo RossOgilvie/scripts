@@ -1,0 +1,37 @@
+#!/bin/sh
+
+completion='compctl -k "(help bash-completion ssh mount unmount)" banach'
+
+case $1 in
+"help")
+	echo "Available options: help; ssh; mount; unmount; bash-completion"
+	;;
+
+"bash-completion")
+	echo "$completion"
+	;;
+
+"mount")
+    #sudo mkdir -p /media/banach
+    #sudo chown ross:users /media/banach
+
+	sshfs rogilvie@banach.math.uni-mannheim.de:/home /media/banach
+	;;
+
+"mount-remote")
+    # mkdir -p /media/dora/{rosso,research,tutsols}
+    # mkdir -p /media/dora/{3968,3968wwwdir}
+    # mkdir -p /media/dora/{1011,1011wwwdir}
+
+	# sshfs rosso@maths.usyd.edu.au:/users/misc/teaching/JM/MATH1011/ /media/dora/1011
+	# sshfs rosso@maths.usyd.edu.au:/users/misc/httpd/htdocs/u/UG/JM/MATH1011/r/ /media/dora/1011wwwdir
+	;;
+
+"unmount")
+	for f in /media/banach; do fusermount -u -z $f; done
+	;;
+
+"ssh" | *)
+	ssh rogilvie@banach.math.uni-mannheim.de
+	;;
+esac

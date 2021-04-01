@@ -35,8 +35,19 @@ fi
 
 fi
 
-# echo $icon_name
-# echo $power
+case $1 in
+"help")
+  echo "Usage: icon|level|show"
+  ;;
+"icon")
+  echo $icon_name
+  ;;
+"level")
+  echo $power
+  ;;
+"show"|*)
+  notify-send "$power" -i $icon_name
+  ;;
+esac
 
-notify-send "$power" -i $icon_name
-# notify-send " "  -h int:value:$power -h string:synchronous:battery
+exit 1

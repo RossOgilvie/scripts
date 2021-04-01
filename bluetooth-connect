@@ -1,9 +1,12 @@
 #!/bin/zsh
 
+sudo rfkill unblock bluetooth
 systemctl restart bluetooth
+bluetoothctl -- power on
 
-bluetoothctl << EOF
-power on
-connect 88:C6:26:0F:3A:97
-quit
-EOF
+# bluetoothctl << EOF
+# power on
+# quit
+# EOF
+
+# connect 88:C6:26:0F:3A:97

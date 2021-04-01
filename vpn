@@ -7,13 +7,28 @@ case $1 in
 	echo "Available options: help; start; stop; bash-completion"
 	;;
 
-"stop")
-	sudo nordvpn stop
-    route
+"bash-completion")
+	echo $completion
 	;;
 
-"start" | *)
-	sudo nordvpn start $(sudo nordvpn list de | tail -n 1)
-    route
+"stop")
+	nordvpn disconnect
+	# sudo nordvpn stop
+	# sleep 2
+    # route
+	;;
+
+"start")
+	nordvpn connect France
+	# sudo nordvpn start $(sudo nordvpn list de | shuf -n 1)
+	# sleep 2
+    # route
+	;;
+
+"*")
+	nordvpn status
+	# sudo nordvpn $*
+	# sleep 2
+    # route
 	;;
 esac

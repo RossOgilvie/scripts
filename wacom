@@ -6,8 +6,8 @@
 completion='compctl -k "(help bash-completion laptop external)" wacom'
 
 # device names
-LAPTOP='eDP1'
-EXTERNAL='HDMI1'
+LAPTOP='eDP-1'
+EXTERNAL='HDMI-1'
 STYLUS='Wacom One by Wacom M Pen stylus'
 
 case $1 in

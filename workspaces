@@ -1,0 +1,51 @@
+#!/bin/zsh
+
+windows=$(wmctrl -l)
+
+function get_workspace_name
+{
+num=$1
+wmctrl_line=$(wmctrl -d | grep "^$num")
+name=${wmctrl_line:32}
+echo $name
+}
+
+function list_workspace_windows
+{
+num=$1
+name=$(get_workspace_name $num)
+echo "--  $name  --"
+# grep the list of windows for those whose desktop matched d
+ws=$(echo $windows | grep "0x[0-9a-f]*  $num")
+# trim all the initial stuff on each line so that only the window title remains
+ws2=$(echo $ws | sed -e "s/0x[0-9a-f]*  [0-9] nyx //")
+# grep out the Eww windows
+ws3=$(echo $ws2 | grep -v "Eww -")
+if [[ ! -z $ws ]]; then
+echo "$ws3"
+# echo ""
+fi
+}
+
+case $1 in
+"--help"|"-h"|"help")
+	echo "Available options: switch #n, list #n, list-all"
+	echo "Second argument #n is a zero indexed integer."
+	exit
+	;;
+
+"switch")
+	wmctrl -s $2
+	;;
+
+"list")
+	list_workspace_windows $2
+	;;
+
+"list-all" | *)
+    workspaces=$(wmctrl -d | wc -l)
+    for ((n=0; n < $workspaces; n++)); do
+	    list_workspace_windows $n
+    done;
+	;;
+esac

@@ -1,0 +1,7 @@
+#!/bin/sh
+
+trash-put *.aux
+trash-put *.fls
+trash-put *.fdb_latexmk
+trash-put *.synctex.gz
+trash-put *.log
