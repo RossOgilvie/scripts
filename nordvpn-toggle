@@ -1,0 +1,12 @@
+#!/bin/sh
+#
+# This script toggles nordvpn
+#
+
+
+if (nordvpn status | grep "Disconnected" -q) # is disabled
+then
+    nordvpn connect nl
+else
+    nordvpn disconnect
+fi
