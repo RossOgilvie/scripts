@@ -3,42 +3,40 @@
 # based on using this specific fork, aka the ricing fork
 # https://github.com/PandorasFox/i3lock-color
 
-B='#00000000'  # blank
-D='#ddddddff'  # light grey default
-T='#000000ff'  # black text
-H='#57c7ffff'  # blue highlight
-W='#990000ff'  # red wrong
+BLANK='#00000000'  # blank
+GREY='#dddddd'  # light grey default
+TEXT='#000000ff'  # black text
+HIGHLIGHT='#57c7ffff'  # blue highlight
+WRONG='#990000ff'  # red wrong
 Z='#00ff00ff'  # green test
 
-# /home/ross/.scripts/monitor auto
-
 i3lock \
---insidevercolor=$D   \
---ringvercolor=$D     \
+--insidever-color=$GREY     \
+--ringver-color=$GREY   \
 \
---insidewrongcolor=$W \
---ringwrongcolor=$W   \
+--insidewrong-color=$GREY   \
+--ringwrong-color=$WRONG     \
 \
---insidecolor=$D      \
---ringcolor=$D        \
---linecolor=$D        \
---separatorcolor=$D   \
---keyhlcolor=$H       \
+--inside-color=$GREY        \
+--ring-color=$GREY        \
+--line-color=$GREY          \
+--separator-color=$BLANK   \
 \
---verifcolor=$T        \
---wrongcolor=$T        \
---timecolor=$T        \
---datecolor=$T        \
---layoutcolor=$T      \
---bshlcolor=$Z        \
+--verif-color=$TEXT          \
+--wrong-color=$TEXT          \
+--time-color=$TEXT           \
+--date-color=$TEXT           \
+--layout-color=$TEXT         \
+--keyhl-color=$HIGHLIGHT         \
+--bshl-color=$HIGHLIGHT          \
 \
---screen 1            \
---blur 5              \
---clock               \
---indicator           \
---timestr="%H:%M:%S"  \
---datestr="Locked" \
-#--datestr="%d %b - D%j W%V" \
-# --keylayout 2         \
-
-# /home/ross/.scripts/monitor auto
+--screen 1                   \
+--blur 5                     \
+--clock                      \
+--indicator                  \
+--radius=70		\
+--time-str="%H:%M:%S"        \
+--time-size=24        \
+--date-str="%A, %m %Y"       \
+--verif-size=24
+#--keylayout 0                \
