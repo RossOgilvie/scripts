@@ -4,21 +4,16 @@ WALLPAPERS="/home/ross/pictures/Wallpaper/"
 
 function bg_set_random_dualspan() {
 	DIR="/home/ross/pictures/Wallpaper/Dual"
-	CHOICE=$(find $DIR -type f \( -name '*.jpg' -o -name '*.png' \) -print0 | shuf -n1 -z)
-	nitrogen --set-scaled $CHOICE
+	nitrogen --set-scaled --random $DIR
 }
 function bg_set_random_dualduo() {
 	DIR="/home/ross/pictures/Wallpaper/Single"
-	CHOICE=$(find $DIR -type f \( -name '*.jpg' -o -name '*.png' \) -print0 | shuf -n1 -z)
-	nitrogen --head=0 --set-scaled $CHOICE
-
-	CHOICE=$(find $DIR -type f \( -name '*.jpg' -o -name '*.png' \) -print0 | shuf -n1 -z)
-	nitrogen --head=1 --set-scaled $CHOICE
+	nitrogen --head=0 --set-zoom-fill --random $DIR
+	nitrogen --head=1 --set-zoom-fill --random $DIR
 }
 function bg_set_random_single() {
 	DIR="/home/ross/pictures/Wallpaper/Single"
-	CHOICE=$(find $DIR -type f \( -name '*.jpg' -o -name '*.png' \) -print0 | shuf -n1 -z)
-	nitrogen --set-scaled $CHOICE
+	nitrogen --set-zoom-fill --random $DIR
 }
 
 function bg_set_random() {
