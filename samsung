@@ -1,0 +1,44 @@
+#!/bin/sh
+
+options='help fan silent normal overclock temp bash-completion'
+
+performance_path='/sys/devices/platform/samsung/performance_level'
+cpu_temp_path='/sys/class/thermal/thermal_zone0/temp'
+
+## Automatically escalate
+function escalation() {
+if [[ $EUID -ne 0 ]]; then
+    sudo "$0" "$1"
+    exit $?
+fi
+}
+
+case $1 in
+"silent")
+    escalation $1
+    echo 'silent' | sudo tee $performance_path
+    ;;
+"normal")
+    escalation $1
+    echo 'normal' | sudo tee $performance_path
+    ;;
+"overclock")
+    escalation $1
+    echo 'overclock' | sudo tee $performance_path
+    ;;
+"fan")
+    cat $performance_path
+    ;;
+"temp")
+    temp=$(cat $cpu_temp_path)
+    echo $(( $temp / 1000 ))
+    ;;
+
+"bash-completion")
+    echo "compctl -k \"($options)\" samsung"
+	;;
+
+"help" | *)
+	echo "Available options: $options"
+	;;
+esac
