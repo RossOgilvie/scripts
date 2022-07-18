@@ -3,22 +3,21 @@
 completion='compctl -k "(up down set mute unmute toggle is_muted is_headphone is_speaker level show help)" volume'
 
 function get_level {
-  pulseaudio-ctl full-status | grep -P -o "[0-9]*"
+  pamixer --get-volume
 }
 
 function is_muted {
-  sinks=$(pactl list sinks)
-  if echo $sinks | grep -A6 -m1 "alsa_output.pci-0000_00_1b.0.analog-stereo" | grep -q "Mute: yes"; then echo "yes"; else echo "no"; fi
+  pamixer --get-mute
 }
 
 function is_headphone {
   sinks=$(pactl list sinks)
-  if echo $sinks | grep -q "Active Port: analog-output-headphones"; then echo "yes"; else echo "no"; fi
+  if echo $sinks | grep -q "Active Port: analog-output-headphones"; then echo "true"; else echo "false"; fi
 }
 
 function is_speaker {
   sinks=$(pactl list sinks)
-  if echo $sinks | grep -q "Active Port: analog-output-speaker"; then echo "yes"; else echo "no"; fi
+  if echo $sinks | grep -q "Active Port: analog-output-speaker"; then echo "true"; else echo "false"; fi
 }
 
 function show {
@@ -28,27 +27,27 @@ function show {
 
 case $1 in
 "up")
-  pulseaudio-ctl up
+  pamixer --increase 5
   show
   ;;
 "down")
-  pulseaudio-ctl down
+  pamixer --decrease 5
   show
   ;;
 "set")
-  pulseaudio-ctl set $2
+  pamixer --set-volume $2
   show
   ;;
 "mute")
-  pactl -- set-sink-mute 1
+  pamixer --mute
   show
   ;;
 "unmute")
-  pactl -- set-sink-mute 0
+  pamixer --unmute
   show
   ;;
 "toggle")
-  pulseaudio-ctl mute
+  pamixer --toggle-mute
   show
   ;;
 

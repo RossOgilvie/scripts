@@ -18,11 +18,11 @@ else
     icon_name="/usr/share/icons/elementary/status/48/audio-volume-high-symbolic.svg"
 fi
 
-if [[ "$headphones" = "yes" ]]; then
+if [[ "$headphones" = "true" ]]; then
     icon_name="/usr/share/icons/gnome/scalable/devices/audio-headphones-symbolic.svg"
 fi
 
-if [[ "$muted" = "yes" ]]; then
+if [[ "$muted" = "true" ]]; then
     icon_name="/usr/share/icons/elementary/status/48/audio-volume-muted-symbolic.svg"
 fi
 
