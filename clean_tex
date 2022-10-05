@@ -5,3 +5,7 @@ trash-put *.fls
 trash-put *.fdb_latexmk
 trash-put *.synctex.gz
 trash-put *.log
+trash-put *.snm
+trash-put *.toc
+trash-put *.nav
+trash-put *.out
