@@ -1,13 +1,18 @@
-#!/bin/sh
+#!/bin/zsh
 
+if [[ $HOST == "nyx" ]]; then
 power=$(cat '/sys/class/power_supply/BAT1/capacity')
-status=$(cat '/sys/class/power_supply/BAT1/status')
+charging_status=$(cat '/sys/class/power_supply/BAT1/status')
+elif [[ $HOST == "aion" ]]; then
+power=$(cat '/sys/class/power_supply/BAT0/capacity')
+charging_status=$(cat '/sys/class/power_supply/BAT0/status')
+fi
 
-if [[ $status == "Full" ]]; then
+if [[ $charging_status == "Full" ]]; then
 icon_name="/usr/share/icons/elementary/status/48/battery-ac-adapter.svg"
 
 
-elif [[ $status == "Charging" ]]; then
+elif [[ $charging_status == "Charging" ]]; then
 icon_name="/usr/share/icons/elementary/status/48/battery-full-charging.svg"
 if (( $power < 95 )); then
     icon_name="/usr/share/icons/elementary/status/48/battery-good-charging.svg"
